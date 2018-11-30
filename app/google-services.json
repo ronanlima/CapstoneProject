@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "793268249321",
+    "firebase_url": "https://visiva-app.firebaseio.com",
+    "project_id": "visiva-app",
+    "storage_bucket": "visiva-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793268249321:android:b35eb5c60ad33c19",
+        "android_client_info": {
+          "package_name": "com.udacity.ronanlima.capstoneproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "793268249321-il67t8hemv6n1882qcspidt9ovicd7os.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQjgN-lmZFTIa2zCYOMyQGNWP3pRJixdo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

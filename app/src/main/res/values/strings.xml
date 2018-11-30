@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CapstoneProject</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="desc_logo">Visiva Arquitetura</string>
+    <string name="tools_title">Title project</string>
+
+    <string name="firebase_project_reference">projetos</string>
+</resources>
