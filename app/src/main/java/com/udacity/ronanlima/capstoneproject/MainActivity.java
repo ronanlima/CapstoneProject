@@ -1,12 +1,16 @@
 package com.udacity.ronanlima.capstoneproject;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.udacity.ronanlima.capstoneproject.view.adapter.NavigationViewAdapter;
 import com.udacity.ronanlima.capstoneproject.viewmodel.FirebaseViewModel;
@@ -23,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     ViewPager viewPager;
     @BindView(R.id.navigation)
     BottomNavigationView bottomNavigationView;
+    @BindView(R.id.fab_email)
+    FloatingActionButton fabEmail;
     MenuItem prevMenuItem;
     private FirebaseViewModel viewModel;
 
@@ -76,6 +82,15 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new NavigationViewAdapter(getSupportFragmentManager()));
         viewPager.addOnPageChangeListener(onPageChangeListener);
         viewModel = ViewModelProviders.of(this).get(FirebaseViewModel.class);
+        fabEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(getString(R.string.fab_mailto), getString(R.string.fab_extra_email), null));
+                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.fab_extra_subject));
+                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.fab_extra_text));
+                startActivity(Intent.createChooser(i, getString(R.string.title_chooser_email)));
+            }
+        });
         if (savedInstanceState == null) {
             viewModel.retrieveProjects();
         }

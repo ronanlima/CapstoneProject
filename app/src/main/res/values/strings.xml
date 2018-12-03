@@ -7,4 +7,10 @@
     <string name="tools_title">Title project</string>
 
     <string name="firebase_project_reference">projetos</string>
+
+    <string name="fab_extra_subject">Visiva Arquitetura - Pedido de orçamento</string>
+    <string name="fab_extra_email">ronan.saleslima@gmail.com</string>
+    <string name="fab_extra_text">Enviado através do Visiva App</string>
+    <string name="title_chooser_email">Escolha o aplicativo para envio</string>
+    <string name="fab_mailto">mailto</string>
 </resources>
