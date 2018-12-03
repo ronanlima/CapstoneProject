@@ -6,13 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.storage.FirebaseStorage;
-import com.udacity.ronanlima.capstoneproject.ImageLoaderHelper;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Project;
-import com.udacity.ronanlima.capstoneproject.widget.DynamicHeightNetworkImageView;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 import lombok.Getter;
 
 /**
+ *
  * Created by rlima on 19/11/18.
  */
 
@@ -30,12 +32,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     private List<Project> list;
     FirebaseStorage storage;
     private Context mContext;
-    private int aux = 0;
-    private float[] aspectRatios;
 
     public ProjectAdapter() {
         storage = FirebaseStorage.getInstance();
-        aspectRatios = new float[]{1.25f, 0.7f, 1.07f};
     }
 
     @NonNull
@@ -50,17 +49,12 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     public void onBindViewHolder(@NonNull final ProjectVH holder, int position) {
         Project project = getList().get(position);
         holder.tvTitle.setText(project.getNomeProjeto());
-        holder.ivPoster.setImageUrl(
-                project.getImagemCapa(),
-                ImageLoaderHelper.getInstance(mContext).getImageLoader());
-
-        holder.ivPoster.setAspectRatio(aspectRatios[aux++]);
-//        RequestOptions requestOptions = new RequestOptions();
-//        requestOptions.centerCrop().fallback(R.drawable.ic_dashboard_black_24dp).placeholder(R.drawable.img_project_default);
-//        Glide.with(mContext)
-//                .setDefaultRequestOptions(requestOptions)
-//                .load(project.getImagemCapa())
-//                .into(holder.ivPoster);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.centerCrop().fallback(R.drawable.ic_dashboard_black_24dp).placeholder(R.drawable.img_project_default);
+        Glide.with(mContext)
+                .setDefaultRequestOptions(requestOptions)
+                .load(project.getImagemCapa())
+                .into(holder.ivPoster);
     }
 
     @Override
@@ -76,7 +70,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     class ProjectVH extends RecyclerView.ViewHolder {
 
         @BindView(R.id.iv_poster_project)
-        DynamicHeightNetworkImageView ivPoster;
+        ImageView ivPoster;
         @BindView(R.id.tv_title_project)
         TextView tvTitle;
 
