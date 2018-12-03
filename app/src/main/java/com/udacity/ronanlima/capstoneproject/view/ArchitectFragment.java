@@ -2,6 +2,7 @@ package com.udacity.ronanlima.capstoneproject.view;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.udacity.ronanlima.capstoneproject.MainActivity;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Project;
 import com.udacity.ronanlima.capstoneproject.enums.Proposito;
@@ -28,7 +30,7 @@ import butterknife.ButterKnife;
  * Created by rlima on 19/11/18.
  */
 
-public class ArchitectFragment extends Fragment {
+public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProjectClickListener {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -42,7 +44,7 @@ public class ArchitectFragment extends Fragment {
             if (!listArchitecture.isEmpty() && adapter != null) {
                 adapter.setList(projects);
             } else {
-                adapter = new ProjectAdapter();
+                adapter = new ProjectAdapter(ArchitectFragment.this);
                 recyclerView.setAdapter(adapter);
                 adapter.setList(projects);
             }
@@ -87,4 +89,14 @@ public class ArchitectFragment extends Fragment {
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(sglm);
     }
+
+    @Override
+    public void onItemClickListener(Project project) {
+        Intent i = new Intent(getActivity(), ProjectDetailActivity.class);
+        Bundle b = new Bundle();
+        b.putParcelable(MainActivity.BUNDLE_PROJECT, project);
+        i.putExtras(b);
+        startActivity(i);
+    }
+
 }

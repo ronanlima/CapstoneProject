@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.storage.FirebaseStorage;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Project;
 
@@ -22,7 +21,6 @@ import butterknife.ButterKnife;
 import lombok.Getter;
 
 /**
- *
  * Created by rlima on 19/11/18.
  */
 
@@ -30,11 +28,11 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     @Getter
     private List<Project> list;
-    FirebaseStorage storage;
     private Context mContext;
+    private OnProjectClickListener clickListener;
 
-    public ProjectAdapter() {
-        storage = FirebaseStorage.getInstance();
+    public ProjectAdapter(OnProjectClickListener listener) {
+        this.clickListener = listener;
     }
 
     @NonNull
@@ -46,7 +44,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ProjectVH holder, int position) {
+    public void onBindViewHolder(@NonNull final ProjectVH holder, final int position) {
         Project project = getList().get(position);
         holder.tvTitle.setText(project.getNomeProjeto());
         RequestOptions requestOptions = new RequestOptions();
@@ -55,6 +53,12 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
                 .setDefaultRequestOptions(requestOptions)
                 .load(project.getImagemCapa())
                 .into(holder.ivPoster);
+        holder.ivPoster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickListener.onItemClickListener(list.get(position));
+            }
+        });
     }
 
     @Override
@@ -78,5 +82,10 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
+    }
+
+    public interface OnProjectClickListener {
+        void onItemClickListener(Project project);
     }
 }
