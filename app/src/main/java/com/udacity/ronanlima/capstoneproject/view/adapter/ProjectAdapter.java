@@ -1,7 +1,6 @@
 package com.udacity.ronanlima.capstoneproject.view.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,9 +30,12 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     private List<Project> list;
     FirebaseStorage storage;
     private Context mContext;
+    private int aux = 0;
+    private float[] aspectRatios;
 
     public ProjectAdapter() {
         storage = FirebaseStorage.getInstance();
+        aspectRatios = new float[]{1.25f, 0.7f, 1.07f};
     }
 
     @NonNull
@@ -50,9 +52,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         holder.tvTitle.setText(project.getNomeProjeto());
         holder.ivPoster.setImageUrl(
                 project.getImagemCapa(),
-                ImageLoaderHelper.getInstance(mContext, this).getImageLoader());
-//        float aspectRatio = 0.6f;
-//        holder.ivPoster.setAspectRatio(aspectRatio);
+                ImageLoaderHelper.getInstance(mContext).getImageLoader());
+
+        holder.ivPoster.setAspectRatio(aspectRatios[aux++]);
 //        RequestOptions requestOptions = new RequestOptions();
 //        requestOptions.centerCrop().fallback(R.drawable.ic_dashboard_black_24dp).placeholder(R.drawable.img_project_default);
 //        Glide.with(mContext)
@@ -71,7 +73,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         notifyDataSetChanged();
     }
 
-    class ProjectVH extends RecyclerView.ViewHolder implements ImageLoaderHelper.DownloadListener {
+    class ProjectVH extends RecyclerView.ViewHolder {
 
         @BindView(R.id.iv_poster_project)
         DynamicHeightNetworkImageView ivPoster;
@@ -81,11 +83,6 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         public ProjectVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        @Override
-        public void onDownloadComplete(Bitmap bitmap) {
-            ivPoster.setAspectRatio(bitmap.getWidth() / bitmap.getHeight());
         }
     }
 }

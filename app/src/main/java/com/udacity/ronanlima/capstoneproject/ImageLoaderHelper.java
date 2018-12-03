@@ -15,9 +15,9 @@ import com.android.volley.toolbox.Volley;
 public class ImageLoaderHelper {
     private static ImageLoaderHelper sInstance;
 
-    public static ImageLoaderHelper getInstance(Context context, DownloadListener downloadListener) {
+    public static ImageLoaderHelper getInstance(Context context) {
         if (sInstance == null) {
-            sInstance = new ImageLoaderHelper(context.getApplicationContext(), downloadListener);
+            sInstance = new ImageLoaderHelper(context.getApplicationContext());
         }
 
         return sInstance;
@@ -25,14 +25,12 @@ public class ImageLoaderHelper {
 
     private final LruCache<String, Bitmap> mImageCache = new LruCache<String, Bitmap>(20);
     private ImageLoader mImageLoader;
-    private DownloadListener downloadListener;
 
-    private ImageLoaderHelper(Context applicationContext, final DownloadListener downloadListener) {
+    private ImageLoaderHelper(Context applicationContext) {
         RequestQueue queue = Volley.newRequestQueue(applicationContext);
         ImageLoader.ImageCache imageCache = new ImageLoader.ImageCache() {
             @Override
             public void putBitmap(String key, Bitmap value) {
-                downloadListener.onDownloadComplete(value);
                 mImageCache.put(key, value);
             }
 
@@ -48,7 +46,4 @@ public class ImageLoaderHelper {
         return mImageLoader;
     }
 
-    public interface DownloadListener {
-        void onDownloadComplete(Bitmap bitmap);
-    }
 }
