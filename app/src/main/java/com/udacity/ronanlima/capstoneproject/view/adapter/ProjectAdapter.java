@@ -1,6 +1,7 @@
 package com.udacity.ronanlima.capstoneproject.view.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,12 +50,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         holder.tvTitle.setText(project.getNomeProjeto());
         holder.ivPoster.setImageUrl(
                 project.getImagemCapa(),
-                ImageLoaderHelper.getInstance(mContext).getImageLoader());
-        float aspectRatio = 0.6f;
-        if (position % 2 == 0) {
-            aspectRatio = 1.5f;
-        }
-        holder.ivPoster.setAspectRatio(aspectRatio);
+                ImageLoaderHelper.getInstance(mContext, this).getImageLoader());
+//        float aspectRatio = 0.6f;
+//        holder.ivPoster.setAspectRatio(aspectRatio);
 //        RequestOptions requestOptions = new RequestOptions();
 //        requestOptions.centerCrop().fallback(R.drawable.ic_dashboard_black_24dp).placeholder(R.drawable.img_project_default);
 //        Glide.with(mContext)
@@ -73,7 +71,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         notifyDataSetChanged();
     }
 
-    class ProjectVH extends RecyclerView.ViewHolder {
+    class ProjectVH extends RecyclerView.ViewHolder implements ImageLoaderHelper.DownloadListener {
 
         @BindView(R.id.iv_poster_project)
         DynamicHeightNetworkImageView ivPoster;
@@ -83,6 +81,11 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         public ProjectVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        @Override
+        public void onDownloadComplete(Bitmap bitmap) {
+            ivPoster.setAspectRatio(bitmap.getWidth() / bitmap.getHeight());
         }
     }
 }

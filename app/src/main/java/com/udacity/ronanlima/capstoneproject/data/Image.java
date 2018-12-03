@@ -4,9 +4,9 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
@@ -14,19 +14,13 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         parentColumns = "id",
         childColumns = "idProjeto",
         onDelete = CASCADE))
+@Data
 public class Image {
     @PrimaryKey
-    @Getter
-    @Setter
+    @NonNull
     private String id;
-    @Getter
-    @Setter
     private String descricao;
-    @Getter
-    @Setter
     private String urlImagem;
-    @Getter
-    @Setter
     private String idProjeto;
 
     public Image(String id, String descricao, String urlImagem, String idProjeto) {
@@ -41,5 +35,8 @@ public class Image {
         setDescricao(descricao);
         setUrlImagem(urlImagem);
         setIdProjeto(idProjeto);
+    }
+
+    public Image() {
     }
 }

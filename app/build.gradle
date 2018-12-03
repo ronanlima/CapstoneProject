@@ -26,6 +26,8 @@ def firebaseVersion = '16.0.3'
 def butterknifeVersion = '8.8.1'
 
 dependencies {
+    compileOnly "org.projectlombok:lombok:1.18.4"
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     implementation "com.android.support:appcompat-v7:$androidVersion"
@@ -40,8 +42,6 @@ dependencies {
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-    compileOnly "org.projectlombok:lombok:1.18.4"
-    annotationProcessor 'org.projectlombok:lombok:1.18.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
