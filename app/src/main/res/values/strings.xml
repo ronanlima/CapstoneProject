@@ -13,4 +13,6 @@
     <string name="fab_extra_text">Enviado através do Visiva App</string>
     <string name="title_chooser_email">Escolha o aplicativo para envio</string>
     <string name="fab_mailto">mailto</string>
+
+    <string name="exception_falha_carregar_imagem">Falha ao recuperar a URL %1s</string>
 </resources>
