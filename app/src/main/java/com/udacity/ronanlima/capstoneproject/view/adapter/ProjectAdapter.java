@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Project;
 
@@ -47,12 +46,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     public void onBindViewHolder(@NonNull final ProjectVH holder, final int position) {
         Project project = getList().get(position);
         holder.tvTitle.setText(project.getNomeProjeto());
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.centerCrop().fallback(R.drawable.ic_dashboard_black_24dp).placeholder(R.drawable.img_project_default);
-        Glide.with(mContext)
-                .setDefaultRequestOptions(requestOptions)
-                .load(project.getImagemCapa())
-                .into(holder.ivPoster);
+        Picasso.get().load(project.getImagemCapa()).into(holder.ivPoster);
         holder.ivPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

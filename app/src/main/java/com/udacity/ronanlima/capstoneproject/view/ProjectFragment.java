@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.udacity.ronanlima.capstoneproject.MainActivity;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Project;
@@ -52,9 +52,7 @@ public class ProjectFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(project.getNomeProjeto());
-        Glide.with(getActivity())
-                .load(project.getImagemCapa())
-                .into(ivPrincipal);
+        Picasso.get().load(project.getImagemCapa()).into(ivPrincipal);
         Palette palette = Palette.generate(ivPrincipal.getDrawingCache(), 12);
         int darkMutedColor = palette.getDarkMutedColor(getResources().getColor(R.color.colorPrimary));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
