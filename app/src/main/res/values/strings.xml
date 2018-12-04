@@ -15,4 +15,7 @@
     <string name="fab_mailto">mailto</string>
 
     <string name="exception_falha_carregar_imagem">Falha ao recuperar a URL %1s</string>
+    <string name="title_sobre_projeto">Sobre o projeto</string>
+    <string name="fake_text_about_project">Aqui vai uma breve descrição sobre o projeto, explanando a necessidade do cliente, assim como os desafios e inspirações encontradas para atendimento de todos os requisitos do projeto.</string>
+    <string name="title_imagens_projeto">Imagens</string>
 </resources>
