@@ -1,13 +1,17 @@
 package com.udacity.ronanlima.capstoneproject.view;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.bumptech.glide.Glide;
 import com.udacity.ronanlima.capstoneproject.MainActivity;
@@ -30,13 +34,14 @@ public class ProjectFragment extends Fragment {
     ProportionThreeTwoImageView ivPrincipal;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    private ProjectDetailActivity activity;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_project, container, false);
         ButterKnife.bind(this, v);
-        ProjectDetailActivity activity = (ProjectDetailActivity) getActivity();
+        activity = (ProjectDetailActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         project = getArguments().getParcelable(MainActivity.BUNDLE_PROJECT);
@@ -50,5 +55,20 @@ public class ProjectFragment extends Fragment {
         Glide.with(getActivity())
                 .load(project.getImagemCapa())
                 .into(ivPrincipal);
+        Palette palette = Palette.generate(ivPrincipal.getDrawingCache(), 12);
+        int darkMutedColor = palette.getDarkMutedColor(getResources().getColor(R.color.colorPrimary));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getActivity().getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+            window.setStatusBarColor(darkMutedColor);
+
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                int startColor = getWindow().getStatusBarColor();
+//                int endColor = ContextCompat.getColor(context, R.color.your_color);
+//                ObjectAnimator.ofArgb(getWindow(), "statusBarColor", startColor, endColor).start();
+//            }
+        }
     }
 }
