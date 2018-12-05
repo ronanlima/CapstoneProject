@@ -69,7 +69,6 @@ public class ProjectFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ViewCompat.setTransitionName(ivPrincipal, getString(R.string.transition_cover));
         verifyInternetConnection();
         tvInfoProjeto.setText(project.getDescricao());
     }
@@ -105,6 +104,7 @@ public class ProjectFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                ViewCompat.setTransitionName(ivPrincipal, getString(R.string.transition_cover));
                                 Palette palette = Palette.generate(bitmap, 12);
                                 final int darkMutedColor = palette.getDarkMutedColor(getResources().getColor(R.color.colorPrimary));
                                 Window window = getActivity().getWindow();
