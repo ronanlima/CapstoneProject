@@ -34,7 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_project_default" />
+                android:src="@drawable/img_project_default"
+                android:transitionName="@string/transition_cover"/>
 
             <TextView
                 android:id="@+id/tv_title_project"
@@ -43,7 +44,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                tools:text="@string/tools_title" />
+                tools:text="@string/tools_title"
+                android:transitionName="@string/transition_project_name"/>
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

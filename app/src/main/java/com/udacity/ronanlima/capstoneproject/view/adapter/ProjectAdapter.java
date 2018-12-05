@@ -50,7 +50,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         holder.ivPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickListener.onItemClickListener(list.get(position));
+                clickListener.onItemClickListener(getItem(holder.getAdapterPosition()), holder.ivPoster, holder.tvTitle);
             }
         });
     }
@@ -58,6 +58,10 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     @Override
     public int getItemCount() {
         return getList() == null || getList().isEmpty() ? 0 : getList().size();
+    }
+
+    private Project getItem(int position) {
+        return list.get(position);
     }
 
     public void setList(List<Project> list) {
@@ -80,6 +84,6 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     }
 
     public interface OnProjectClickListener {
-        void onItemClickListener(Project project);
+        void onItemClickListener(Project project, View... views);
     }
 }

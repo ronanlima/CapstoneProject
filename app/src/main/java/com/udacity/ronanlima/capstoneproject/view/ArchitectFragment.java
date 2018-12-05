@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -37,8 +39,8 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
     RecyclerView recyclerView;
     @BindView(R.id.shimmer_recycler_view)
     ShimmerRecyclerView shimmerRecyclerView;
-    FirebaseViewModel viewModel;
-    ProjectAdapter adapter;
+    private FirebaseViewModel viewModel;
+    private ProjectAdapter adapter;
 
     Observer observerProjects = new Observer<List<Project>>() {
         @Override
@@ -96,12 +98,14 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
     }
 
     @Override
-    public void onItemClickListener(Project project) {
+    public void onItemClickListener(Project project, View... views) {
         Intent i = new Intent(getActivity(), ProjectDetailActivity.class);
         Bundle b = new Bundle();
         b.putParcelable(MainActivity.BUNDLE_PROJECT, project);
         i.putExtras(b);
-        startActivity(i);
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(getActivity(), Pair.create(views[0], getString(R.string.transition_cover)), Pair.create(views[1], getString(R.string.transition_project_name)));
+        startActivity(i, options.toBundle());
     }
 
 }

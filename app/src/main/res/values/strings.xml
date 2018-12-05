@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CapstoneProject</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_architecture">Arquitetura</string>
+    <string name="title_decoration">Decoração</string>
     <string name="title_notifications">Notifications</string>
     <string name="desc_logo">Visiva Arquitetura</string>
     <string name="tools_title">Title project</string>
@@ -18,4 +18,6 @@
     <string name="title_sobre_projeto">Sobre o projeto</string>
     <string name="fake_text_about_project">Aqui vai uma breve descrição sobre o projeto, explanando a necessidade do cliente, assim como os desafios e inspirações encontradas para atendimento de todos os requisitos do projeto.</string>
     <string name="title_imagens_projeto">Imagens</string>
+    <string name="transition_cover">capa</string>
+    <string name="transition_project_name">nameProject</string>
 </resources>
