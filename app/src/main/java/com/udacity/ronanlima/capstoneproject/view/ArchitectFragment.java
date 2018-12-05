@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.udacity.ronanlima.capstoneproject.MainActivity;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Project;
@@ -34,6 +35,8 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @BindView(R.id.shimmer_recycler_view)
+    ShimmerRecyclerView shimmerRecyclerView;
     FirebaseViewModel viewModel;
     ProjectAdapter adapter;
 
@@ -41,6 +44,7 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
         @Override
         public void onChanged(@Nullable List<Project> projects) {
             List<Project> listArchitecture = mountArchitecureList(projects);
+            shimmerRecyclerView.hideShimmerAdapter();
             if (!listArchitecture.isEmpty() && adapter != null) {
                 adapter.setList(projects);
             } else {
@@ -67,6 +71,7 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_architect, container, false);
         ButterKnife.bind(this, view);
+        shimmerRecyclerView.showShimmerAdapter();
         viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
         observeProjects();
         setRetainInstance(true);
