@@ -1,6 +1,8 @@
 package com.udacity.ronanlima.capstoneproject.view;
 
 import android.animation.ObjectAnimator;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,11 +24,15 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.udacity.ronanlima.capstoneproject.MainActivity;
 import com.udacity.ronanlima.capstoneproject.R;
+import com.udacity.ronanlima.capstoneproject.data.Image;
 import com.udacity.ronanlima.capstoneproject.data.Project;
 import com.udacity.ronanlima.capstoneproject.util.NetworkUtils;
+import com.udacity.ronanlima.capstoneproject.view.adapter.ImageAdapter;
+import com.udacity.ronanlima.capstoneproject.viewmodel.FirebaseViewModel;
 import com.udacity.ronanlima.capstoneproject.widget.ProportionThreeTwoImageView;
 
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,8 +42,10 @@ import butterknife.ButterKnife;
  *
  * @author ronanlima
  */
-public class ProjectFragment extends Fragment {
+public class ProjectFragment extends Fragment implements ImageAdapter.OnImageItemClickListener {
     public static final String TAG = ProjectFragment.class.getSimpleName().toUpperCase();
+
+    private FirebaseViewModel viewModel;
     private Project project;
     @BindView(R.id.iv_principal)
     ProportionThreeTwoImageView ivPrincipal;
@@ -44,16 +53,44 @@ public class ProjectFragment extends Fragment {
     Toolbar toolbar;
     @BindView(R.id.tv_info_projeto)
     TextView tvInfoProjeto;
+    @BindView(R.id.rv_imagens)
+    RecyclerView rvImages;
     private ProjectDetailActivity activity;
+    private ImageAdapter adapter;
+
+    Observer observer = new Observer<List<Image>>() {
+        @Override
+        public void onChanged(@Nullable List<Image> images) {
+            if (!images.isEmpty() && adapter != null) {
+                adapter.setList(images);
+            } else {
+                adapter = new ImageAdapter(ProjectFragment.this);
+                rvImages.setAdapter(adapter);
+                adapter.setList(images);
+            }
+        }
+    };
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_project, container, false);
         ButterKnife.bind(this, v);
+        initViewModel();
         project = getArguments().getParcelable(MainActivity.BUNDLE_PROJECT);
         configToolbar();
+        setRetainInstance(true);
         return v;
+    }
+
+    /**
+     * Get view model and set an observer for images.
+     */
+    private void initViewModel() {
+        viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
+        if (!viewModel.getDataImage().hasActiveObservers()) {
+            viewModel.getDataImage().observe(this, observer);
+        }
     }
 
     /**
@@ -80,6 +117,7 @@ public class ProjectFragment extends Fragment {
     private void verifyInternetConnection() {
         if (NetworkUtils.isConnected(getActivity())) {
             setImagemPrincipal();
+            rvImages.hasFixedSize();
         } else {
             ivPrincipal.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_logo));
             ivPrincipal.setAlpha(0.7f);
@@ -119,5 +157,10 @@ public class ProjectFragment extends Fragment {
                 }
             }
         }).start();
+    }
+
+    @Override
+    public void onClick() {
+
     }
 }

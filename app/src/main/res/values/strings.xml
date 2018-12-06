@@ -3,10 +3,10 @@
     <string name="title_architecture">Arquitetura</string>
     <string name="title_decoration">Decoração</string>
     <string name="title_notifications">Notifications</string>
-    <string name="desc_logo">Visiva Arquitetura</string>
     <string name="tools_title">Title project</string>
 
     <string name="firebase_project_reference">projetos</string>
+    <string name="firebase_image_reference">imagens</string>
 
     <string name="fab_extra_subject">Visiva Arquitetura - Pedido de orçamento</string>
     <string name="fab_extra_email">ronan.saleslima@gmail.com</string>
@@ -20,4 +20,8 @@
     <string name="title_imagens_projeto">Imagens</string>
     <string name="transition_cover">capa</string>
     <string name="transition_project_name">nameProject</string>
+
+    <!-- Content description -->
+    <string name="desc_logo">Visiva Arquitetura</string>
+    <string name="desc_image_item">Imagem do projeto %1s</string>
 </resources>

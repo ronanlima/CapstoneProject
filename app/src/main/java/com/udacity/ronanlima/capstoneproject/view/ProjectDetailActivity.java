@@ -1,5 +1,6 @@
 package com.udacity.ronanlima.capstoneproject.view;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.udacity.ronanlima.capstoneproject.MainActivity;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Project;
+import com.udacity.ronanlima.capstoneproject.viewmodel.FirebaseViewModel;
 
 /**
  * Class that represents the detail of selected project.
@@ -16,16 +18,18 @@ import com.udacity.ronanlima.capstoneproject.data.Project;
  */
 public class ProjectDetailActivity extends AppCompatActivity {
 
+    private FirebaseViewModel viewModel;
     private Project project;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_detail);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
             project = getIntent().getParcelableExtra(MainActivity.BUNDLE_PROJECT);
+            viewModel = ViewModelProviders.of(this).get(FirebaseViewModel.class);
+            viewModel.retrieveImages(project.getId());
             ProjectFragment projectFragment = createProjectFragment(project);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();

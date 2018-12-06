@@ -7,11 +7,11 @@ import android.support.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.udacity.ronanlima.capstoneproject.R;
+import com.udacity.ronanlima.capstoneproject.data.Image;
 import com.udacity.ronanlima.capstoneproject.data.Project;
 
 import java.util.ArrayList;
@@ -28,41 +28,82 @@ import java.util.List;
 public class FirebaseViewModel extends AndroidViewModel {
     private FirebaseDatabase database;
     private FirebaseStorage storage;
-    private DatabaseReference projectReference;
     private MutableLiveData<List<Project>> dataProject;
+    private MutableLiveData<List<Image>> dataImage;
 
     public FirebaseViewModel(@NonNull Application application) {
         super(application);
         database = FirebaseDatabase.getInstance();
-        projectReference = database.getReference(application.getString(R.string.firebase_project_reference));
     }
 
+    /**
+     * Retrieve projects of Firebase Database for the first time the user open's the app and/or the
+     * user make swipe gest.
+     */
     public void retrieveProjects() {
-        projectReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    List<Project> list = new ArrayList<>();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        list.add(getValue(snapshot));
+        database.getReference(getApplication().getString(R.string.firebase_project_reference))
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            List<Project> list = new ArrayList<>();
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                list.add(getValue(snapshot));
+                            }
+
+                            getDataProject().postValue(list);
+                        }
                     }
 
-                    getDataProject().postValue(list);
-                }
-            }
+                    @NonNull
+                    private Project getValue(DataSnapshot snapshot) {
+                        Project value = snapshot.getValue(Project.class);
+                        value.setId(snapshot.getKey());
+                        return value;
+                    }
 
-            @NonNull
-            private Project getValue(DataSnapshot snapshot) {
-                Project value = snapshot.getValue(Project.class);
-                value.setId(snapshot.getKey());
-                return value;
-            }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+    }
 
-            }
-        });
+    /**
+     * Retrive the image collection of selected project for the first time the user click on that
+     * project.
+     *
+     * @param idProjeto
+     */
+    public void retrieveImages(String idProjeto) {
+        database.getReference(getApplication().getString(R.string.firebase_image_reference))
+                .child(idProjeto)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            List<Image> list = new ArrayList<>();
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Image value = getValue(snapshot);
+                                list.add(value);
+                            }
+
+                            getDataImage().postValue(list);
+                        }
+                    }
+
+                    @NonNull
+                    private Image getValue(DataSnapshot snapshot) {
+                        Image value = snapshot.getValue(Image.class);
+                        value.setId(snapshot.getKey());
+                        return value;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     public MutableLiveData<List<Project>> getDataProject() {
@@ -70,5 +111,12 @@ public class FirebaseViewModel extends AndroidViewModel {
             dataProject = new MutableLiveData<>();
         }
         return dataProject;
+    }
+
+    public MutableLiveData<List<Image>> getDataImage() {
+        if (dataImage == null) {
+            dataImage = new MutableLiveData<>();
+        }
+        return dataImage;
     }
 }
