@@ -19,8 +19,8 @@
         app:cardCornerRadius="2dp"
         app:cardElevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -35,7 +35,7 @@
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_project_default"
-                android:transitionName="@string/transition_cover"/>
+                android:transitionName="@string/transition_cover" />
 
             <TextView
                 android:id="@+id/tv_title_project"
@@ -44,8 +44,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                tools:text="@string/tools_title"
-                android:transitionName="@string/transition_project_name"/>
+                android:transitionName="@string/transition_project_name"
+                tools:text="@string/tools_title" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

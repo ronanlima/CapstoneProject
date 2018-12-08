@@ -3,6 +3,7 @@ package com.udacity.ronanlima.capstoneproject.view.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+import com.udacity.ronanlima.capstoneproject.AppExecutors;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Project;
 
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,6 +28,8 @@ import lombok.Getter;
  */
 
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectVH> {
+
+    private static final String TAG = ProjectAdapter.class.getSimpleName().toUpperCase();
 
     @Getter
     private List<Project> list;
@@ -44,9 +50,26 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     @Override
     public void onBindViewHolder(@NonNull final ProjectVH holder, final int position) {
-        Project project = getList().get(position);
+        final Project project = getList().get(position);
         holder.tvTitle.setText(project.getNomeProjeto());
-        Picasso.get().load(project.getImagemCapa()).into(holder.ivPoster);
+        AppExecutors.getInstance().getNetworkIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                final RequestCreator load = Picasso.get().load(project.getImagemCapa());
+                try {
+                    load.get();
+                    AppExecutors.getInstance().getMainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            load.into(holder.ivPoster);
+                        }
+                    });
+                } catch (IOException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
+            }
+        });
         holder.ivPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,7 +80,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     @Override
     public int getItemCount() {
-        return getList() == null || getList().isEmpty() ? 0 : getList().size();
+        return getList() == null ? 0 : getList().size();
     }
 
     private Project getItem(int position) {

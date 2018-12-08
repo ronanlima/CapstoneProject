@@ -8,4 +8,7 @@
     <dimen name="placeholderImage">135dp</dimen>
     <dimen name="placeholderTextHeight">8dp</dimen>
     <dimen name="padding_10">10dp</dimen>
+
+    <dimen name="width_iv_adapter">96dp</dimen>
+    <dimen name="height_iv_adapter">96dp</dimen>
 </resources>

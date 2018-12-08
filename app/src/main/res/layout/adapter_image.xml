@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/iv_item"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="@dimen/width_iv_adapter"
+        android:layout_height="@dimen/height_iv_adapter"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -16,4 +16,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/img_project_default" />
+
+    <io.supercharge.shimmerlayout.ShimmerLayout
+        android:id="@+id/shimmer_placeholder"
+        android:layout_width="@dimen/width_iv_adapter"
+        android:layout_height="@dimen/height_iv_adapter"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shimmer_auto_start="true"
+        app:shimmer_color="@color/shimmerColor">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background" />
+
+    </io.supercharge.shimmerlayout.ShimmerLayout>
+
 </android.support.constraint.ConstraintLayout>
