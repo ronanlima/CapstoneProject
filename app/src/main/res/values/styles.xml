@@ -12,4 +12,13 @@
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="cardviewProject">
+        <item name="android:height">@dimen/height_cardview_project</item>
+        <item name="android:layout_marginLeft">@dimen/margin_left_cardview_project</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_cardview_project</item>
+        <item name="android:layout_marginRight">@dimen/margin_right_cardview_project</item>
+        <item name="android:layout_marginBottom">@dimen/margin_bottom_cardview_project</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
 </resources>

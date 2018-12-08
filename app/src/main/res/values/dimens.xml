@@ -11,4 +11,12 @@
 
     <dimen name="width_iv_adapter">96dp</dimen>
     <dimen name="height_iv_adapter">96dp</dimen>
+
+    <dimen name="height_cardview_project">135dp</dimen>
+    <dimen name="margin_left_cardview_project">8dp</dimen>
+    <dimen name="margin_top_cardview_project">@dimen/margin_left_cardview_project</dimen>
+    <dimen name="margin_right_cardview_project">@dimen/margin_left_cardview_project</dimen>
+    <dimen name="margin_bottom_cardview_project">@dimen/margin_left_cardview_project</dimen>
+    <dimen name="corner_radius">2dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
 </resources>
