@@ -3,7 +3,7 @@ package com.udacity.ronanlima.capstoneproject.data;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Index;
 import android.support.annotation.NonNull;
 
 import lombok.Data;
@@ -13,21 +13,27 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 @Entity(tableName = "image", foreignKeys = @ForeignKey(entity = Project.class,
         parentColumns = "id",
         childColumns = "idProjeto",
-        onDelete = CASCADE))
+        onDelete = CASCADE,
+        onUpdate = CASCADE),
+        primaryKeys = {"id", "idProjeto"}, indices = {@Index("idProjeto")})
 @Data
 public class Image {
-    @PrimaryKey
     @NonNull
     private String id;
     private String descricao;
     private String urlImagem;
+    @NonNull
     private String idProjeto;
+    private String uriImagem;
+    private String nome;
 
-    public Image(String id, String descricao, String urlImagem, String idProjeto) {
+    public Image(String id, String descricao, String urlImagem, String idProjeto, String uriImagem, String nome) {
         setId(id);
         setDescricao(descricao);
         setUrlImagem(urlImagem);
         setIdProjeto(idProjeto);
+        setUriImagem(uriImagem);
+        setNome(nome);
     }
 
     @Ignore
@@ -37,6 +43,7 @@ public class Image {
         setIdProjeto(idProjeto);
     }
 
+    @Ignore
     public Image() {
     }
 

@@ -9,10 +9,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
+import com.udacity.ronanlima.capstoneproject.AppExecutors;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Image;
 import com.udacity.ronanlima.capstoneproject.data.Project;
+import com.udacity.ronanlima.capstoneproject.database.AppDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,6 @@ import java.util.List;
 
 public class FirebaseViewModel extends AndroidViewModel {
     private FirebaseDatabase database;
-    private FirebaseStorage storage;
     private MutableLiveData<List<Project>> dataProject;
     private MutableLiveData<List<Image>> dataImage;
 
@@ -51,7 +51,8 @@ public class FirebaseViewModel extends AndroidViewModel {
                                 list.add(getValue(snapshot));
                             }
 
-                            getDataProject().postValue(list);
+                            getDataProject().setValue(list);
+                            insertProjectData();
                         }
                     }
 
@@ -70,12 +71,27 @@ public class FirebaseViewModel extends AndroidViewModel {
     }
 
     /**
+     * After obtain the data project, save it locally.
+     */
+    private void insertProjectData() {
+        final List<Project> value = getDataProject().getValue();
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                for (Project p : value) {
+                    AppDatabase.getInstance(getApplication()).projectDAO().insertProject(p);
+                }
+            }
+        });
+    }
+
+    /**
      * Retrive the image collection of selected project for the first time the user click on that
      * project.
      *
      * @param idProjeto
      */
-    public void retrieveImages(String idProjeto) {
+    public void retrieveImages(final String idProjeto) {
         database.getReference(getApplication().getString(R.string.firebase_image_reference))
                 .child(idProjeto)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -84,7 +100,7 @@ public class FirebaseViewModel extends AndroidViewModel {
                         if (dataSnapshot.exists()) {
                             List<Image> list = new ArrayList<>();
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                Image value = getValue(snapshot);
+                                Image value = getValue(snapshot, idProjeto);
                                 list.add(value);
                             }
 
@@ -93,9 +109,10 @@ public class FirebaseViewModel extends AndroidViewModel {
                     }
 
                     @NonNull
-                    private Image getValue(DataSnapshot snapshot) {
+                    private Image getValue(DataSnapshot snapshot, String idProjeto) {
                         Image value = snapshot.getValue(Image.class);
                         value.setId(snapshot.getKey());
+                        value.setIdProjeto(idProjeto);
                         return value;
                     }
 

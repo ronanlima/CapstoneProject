@@ -6,10 +6,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.udacity.ronanlima.capstoneproject.AppExecutors;
 import com.udacity.ronanlima.capstoneproject.MainActivity;
 import com.udacity.ronanlima.capstoneproject.R;
+import com.udacity.ronanlima.capstoneproject.data.Image;
 import com.udacity.ronanlima.capstoneproject.data.Project;
+import com.udacity.ronanlima.capstoneproject.database.AppDatabase;
 import com.udacity.ronanlima.capstoneproject.viewmodel.FirebaseViewModel;
+
+import java.util.List;
 
 /**
  * Class that represents the detail of selected project.
@@ -29,7 +34,17 @@ public class ProjectDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             project = getIntent().getParcelableExtra(MainActivity.BUNDLE_PROJECT);
             viewModel = ViewModelProviders.of(this).get(FirebaseViewModel.class);
-            viewModel.retrieveImages(project.getId());
+            AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    List<Image> images = AppDatabase.getInstance(ProjectDetailActivity.this).imageDAO().loadAllImages(project.getId());
+                    if (images == null || images.isEmpty()) {
+                        viewModel.retrieveImages(project.getId());
+                    } else {
+                        viewModel.getDataImage().postValue(images);
+                    }
+                }
+            });
             ProjectFragment projectFragment = createProjectFragment(project);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();

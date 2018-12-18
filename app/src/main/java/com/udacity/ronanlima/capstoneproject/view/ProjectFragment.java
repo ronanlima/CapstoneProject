@@ -128,32 +128,34 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final RequestCreator load = Picasso.get().load(project.getImagemCapa()).placeholder(R.drawable.img_project_default);
+                if (getActivity() != null) {
+                    final RequestCreator load = Picasso.get().load(project.getImagemCapa()).placeholder(R.drawable.img_project_default);
 
-                try {
-                    final Bitmap bitmap = load.get();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            load.into(ivPrincipal);
-                        }
-                    });
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    try {
+                        final Bitmap bitmap = load.get();
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ViewCompat.setTransitionName(ivPrincipal, getString(R.string.transition_cover));
-                                Palette palette = Palette.generate(bitmap, 12);
-                                final int darkMutedColor = palette.getDarkMutedColor(getResources().getColor(R.color.colorPrimary));
-                                Window window = getActivity().getWindow();
-                                int startColor = window.getStatusBarColor();
-                                ObjectAnimator.ofArgb(window, "statusBarColor", startColor, darkMutedColor).start();
+                                load.into(ivPrincipal);
                             }
                         });
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ViewCompat.setTransitionName(ivPrincipal, getString(R.string.transition_cover));
+                                    Palette palette = Palette.generate(bitmap, 12);
+                                    final int darkMutedColor = palette.getDarkMutedColor(getResources().getColor(R.color.colorPrimary));
+                                    Window window = getActivity().getWindow();
+                                    int startColor = window.getStatusBarColor();
+                                    ObjectAnimator.ofArgb(window, "statusBarColor", startColor, darkMutedColor).start();
+                                }
+                            });
+                        }
+                    } catch (IOException e) {
+                        Log.i(TAG, getString(R.string.exception_falha_carregar_imagem, project.getImagemCapa()));
+                        Log.e(TAG, e.getMessage());
                     }
-                } catch (IOException e) {
-                    Log.i(TAG, getString(R.string.exception_falha_carregar_imagem, project.getImagemCapa()));
-                    Log.e(TAG, e.getMessage());
                 }
             }
         }).start();

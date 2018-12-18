@@ -12,8 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.udacity.ronanlima.capstoneproject.data.Project;
+import com.udacity.ronanlima.capstoneproject.database.AppDatabase;
 import com.udacity.ronanlima.capstoneproject.view.adapter.NavigationViewAdapter;
 import com.udacity.ronanlima.capstoneproject.viewmodel.FirebaseViewModel;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,8 +97,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         if (savedInstanceState == null) {
-            viewModel.retrieveProjects();
+            getDataProject();
         }
+    }
+
+    /**
+     * On the first time, request the data from the FirebaseDatabase. Then, get the data from room.
+     */
+    private void getDataProject() {
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Project> projects = AppDatabase.getInstance(MainActivity.this).projectDAO().loadAllProjects();
+                if (projects == null || projects.isEmpty()) {
+                    viewModel.retrieveProjects();
+                } else {
+                    viewModel.getDataProject().postValue(projects);
+                }
+            }
+        });
     }
 
 }

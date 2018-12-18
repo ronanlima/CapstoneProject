@@ -1,6 +1,7 @@
 package com.udacity.ronanlima.capstoneproject.view.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +15,11 @@ import com.squareup.picasso.RequestCreator;
 import com.udacity.ronanlima.capstoneproject.AppExecutors;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Image;
+import com.udacity.ronanlima.capstoneproject.database.AppDatabase;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,6 +35,8 @@ import lombok.Getter;
  */
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private static final String TAG = ImageAdapter.class.getSimpleName().toUpperCase();
+    public static final String FILE_EXTENSION = ".png";
+    public static final int COMPRESS_QUALITY = 100;
 
     private Context mContext;
     @Getter
@@ -51,18 +58,37 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
         final Image image = list.get(position);
-        AppExecutors.getInstance().getNetworkIO().execute(new Runnable() {
+        if (image.getUriImagem() == null || image.getUriImagem().isEmpty()) {
+            retriveImageFromNetwork(holder, image);
+        } else {
+            retriveImageFromAppDirectory(holder, image);
+        }
+        holder.ivItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickListener.onClick();
+            }
+        });
+    }
+
+    /**
+     * Retrivei image from directory when they already exists on device.
+     *
+     * @param holder
+     * @param image
+     */
+    private void retriveImageFromAppDirectory(@NonNull final ImageViewHolder holder, final Image image) {
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
-                final RequestCreator load = Picasso.get().load(image.getUrlImagem());
+                File file = new File(image.getUriImagem());
+                final RequestCreator load = Picasso.get().load(file);
                 try {
                     load.get();
                     AppExecutors.getInstance().getMainThread().execute(new Runnable() {
                         @Override
                         public void run() {
-                            load.into(holder.ivItem);
-                            holder.shimmerLayout.stopShimmerAnimation();
-                            holder.shimmerLayout.setVisibility(View.GONE);
+                            displayImage(load, holder);
                         }
                     });
                 } catch (IOException e) {
@@ -70,10 +96,57 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 }
             }
         });
-        holder.ivItem.setOnClickListener(new View.OnClickListener() {
+    }
+
+    /**
+     * Set the image into imageView and stop shimmer animation
+     *
+     * @param load
+     * @param holder
+     */
+    private void displayImage(RequestCreator load, @NonNull ImageViewHolder holder) {
+        load.into(holder.ivItem);
+        holder.shimmerLayout.stopShimmerAnimation();
+        holder.shimmerLayout.setVisibility(View.GONE);
+    }
+
+    /**
+     * Retrive image from network, when that dont exist locally.
+     *
+     * @param holder
+     * @param image
+     */
+    private void retriveImageFromNetwork(@NonNull final ImageViewHolder holder, final Image image) {
+        AppExecutors.getInstance().getNetworkIO().execute(new Runnable() {
             @Override
-            public void onClick(View view) {
-                clickListener.onClick();
+            public void run() {
+                final RequestCreator load = Picasso.get().load(image.getUrlImagem());
+                try {
+                    Bitmap bitmap = load.get();
+                    AppExecutors.getInstance().getMainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            displayImage(load, holder);
+                        }
+                    });
+                    saveImageLocally(bitmap, image);
+                } catch (IOException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }
+        });
+    }
+
+    private void saveImageLocally(Bitmap bitmap, final Image image) throws FileNotFoundException {
+        String fileName = String.format("%s_%s%s", image.getIdProjeto(), image.getNome(), FILE_EXTENSION);
+        File file = new File(mContext.getFilesDir(), fileName);
+        FileOutputStream fos = new FileOutputStream(file);
+        bitmap.compress(Bitmap.CompressFormat.PNG, COMPRESS_QUALITY, fos);
+        image.setUriImagem(file.getPath());
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                AppDatabase.getInstance(mContext).imageDAO().insertImage(image);
             }
         });
     }

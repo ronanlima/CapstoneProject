@@ -40,6 +40,7 @@ public class Project implements Parcelable {
         setImagemCapa(imagemCapa);
     }
 
+    @Ignore
     public Project() {
     }
 
