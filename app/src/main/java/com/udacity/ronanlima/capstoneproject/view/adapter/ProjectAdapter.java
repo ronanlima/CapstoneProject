@@ -1,6 +1,7 @@
 package com.udacity.ronanlima.capstoneproject.view.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +16,11 @@ import com.squareup.picasso.RequestCreator;
 import com.udacity.ronanlima.capstoneproject.AppExecutors;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Project;
+import com.udacity.ronanlima.capstoneproject.database.AppDatabase;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,6 +35,8 @@ import lombok.Getter;
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectVH> {
 
     private static final String TAG = ProjectAdapter.class.getSimpleName().toUpperCase();
+    public static final String FILE_EXTENSION = ".png";
+    public static final int COMPRESS_QUALITY = 100;
 
     @Getter
     private List<Project> list;
@@ -52,10 +59,59 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     public void onBindViewHolder(@NonNull final ProjectVH holder, final int position) {
         final Project project = getList().get(position);
         holder.tvTitle.setText(project.getNomeProjeto());
+        if (project.getUriImagemCapa() == null || project.getUriImagemCapa().isEmpty()) {
+            retrieveImageFromNetwork(holder, project);
+        } else {
+            retriveImageFromAppDirectory(holder, project);
+        }
+        holder.ivPoster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickListener.onItemClickListener(getItem(holder.getAdapterPosition()), holder.ivPoster, holder.tvTitle);
+            }
+        });
+    }
+
+    /**
+     * Retrieve image from network, when that dont exist locally.
+     *
+     * @param holder
+     * @param project
+     */
+    private void retrieveImageFromNetwork(@NonNull final ProjectVH holder, final Project project) {
         AppExecutors.getInstance().getNetworkIO().execute(new Runnable() {
             @Override
             public void run() {
                 final RequestCreator load = Picasso.get().load(project.getImagemCapa());
+                try {
+                    Bitmap bitmap = load.get();
+                    AppExecutors.getInstance().getMainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            load.into(holder.ivPoster);
+                        }
+                    });
+                    saveImageLocally(bitmap, project);
+                } catch (IOException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
+            }
+        });
+    }
+
+    /**
+     * Retrieve image from directory when they already exists on device.
+     *
+     * @param holder
+     * @param project
+     */
+    private void retriveImageFromAppDirectory(@NonNull final ProjectVH holder, final Project project) {
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                File file = new File(project.getUriImagemCapa());
+                final RequestCreator load = Picasso.get().load(file);
                 try {
                     load.get();
                     AppExecutors.getInstance().getMainThread().execute(new Runnable() {
@@ -67,13 +123,20 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
                 } catch (IOException e) {
                     Log.e(TAG, e.getMessage());
                 }
-
             }
         });
-        holder.ivPoster.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void saveImageLocally(Bitmap bitmap, final Project project) throws FileNotFoundException {
+        String fileName = String.format("%s_%s%s", project.getId(), "Imagem da capa", FILE_EXTENSION);
+        File file = new File(mContext.getFilesDir(), fileName);
+        FileOutputStream fos = new FileOutputStream(file);
+        bitmap.compress(Bitmap.CompressFormat.PNG, COMPRESS_QUALITY, fos);
+        project.setUriImagemCapa(file.getPath());
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
             @Override
-            public void onClick(View view) {
-                clickListener.onItemClickListener(getItem(holder.getAdapterPosition()), holder.ivPoster, holder.tvTitle);
+            public void run() {
+                AppDatabase.getInstance(mContext).projectDAO().updateProject(project);
             }
         });
     }

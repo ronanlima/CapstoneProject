@@ -23,13 +23,15 @@ public class Project implements Parcelable {
     private String idProposito;
     private String nomeProjeto;
     private String imagemCapa;
+    private String uriImagemCapa;
 
-    public Project(String id, String descricao, String idProposito, String nomeProjeto, String imagemCapa) {
+    public Project(String id, String descricao, String idProposito, String nomeProjeto, String imagemCapa, String uriImagemCapa) {
         setId(id);
         setDescricao(descricao);
         setIdProposito(idProposito);
         setNomeProjeto(nomeProjeto);
         setImagemCapa(imagemCapa);
+        setUriImagemCapa(uriImagemCapa);
     }
 
     @Ignore
@@ -51,6 +53,7 @@ public class Project implements Parcelable {
         idProposito = in.readString();
         nomeProjeto = in.readString();
         imagemCapa = in.readString();
+        uriImagemCapa = in.readString();
     }
 
     public static final Creator<Project> CREATOR = new Creator<Project>() {
@@ -77,6 +80,7 @@ public class Project implements Parcelable {
         parcel.writeString(idProposito);
         parcel.writeString(nomeProjeto);
         parcel.writeString(imagemCapa);
+        parcel.writeString(uriImagemCapa);
     }
 
     //    @Ignore

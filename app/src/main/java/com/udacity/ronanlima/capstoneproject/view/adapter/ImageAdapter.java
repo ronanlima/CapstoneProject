@@ -59,9 +59,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
         final Image image = list.get(position);
         if (image.getUriImagem() == null || image.getUriImagem().isEmpty()) {
-            retriveImageFromNetwork(holder, image);
+            retrieveImageFromNetwork(holder, image);
         } else {
-            retriveImageFromAppDirectory(holder, image);
+            retrieveImageFromAppDirectory(holder, image);
         }
         holder.ivItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,12 +72,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
 
     /**
-     * Retrivei image from directory when they already exists on device.
+     * Retrieve image from directory when they already exists on device.
      *
      * @param holder
      * @param image
      */
-    private void retriveImageFromAppDirectory(@NonNull final ImageViewHolder holder, final Image image) {
+    private void retrieveImageFromAppDirectory(@NonNull final ImageViewHolder holder, final Image image) {
         AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
@@ -111,12 +111,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
 
     /**
-     * Retrive image from network, when that dont exist locally.
+     * Retrieve image from network, when that dont exist locally.
      *
      * @param holder
      * @param image
      */
-    private void retriveImageFromNetwork(@NonNull final ImageViewHolder holder, final Image image) {
+    private void retrieveImageFromNetwork(@NonNull final ImageViewHolder holder, final Image image) {
         AppExecutors.getInstance().getNetworkIO().execute(new Runnable() {
             @Override
             public void run() {
