@@ -34,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingBottom="8dp"
+                android:scrollbars="none"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
             <TextView
