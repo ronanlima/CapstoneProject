@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +34,7 @@ import com.udacity.ronanlima.capstoneproject.viewmodel.FirebaseViewModel;
 import com.udacity.ronanlima.capstoneproject.widget.ProportionThreeTwoImageView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -61,13 +64,33 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
     Observer observer = new Observer<List<Image>>() {
         @Override
         public void onChanged(@Nullable List<Image> images) {
-            if (!images.isEmpty() && adapter != null) {
-                adapter.setList(images);
+            List<Image> listAux = createReducedList(images);
+            if (adapter != null && !images.isEmpty()) {
+                adapter.setList(listAux);
             } else {
                 adapter = new ImageAdapter(ProjectFragment.this);
                 rvImages.setAdapter(adapter);
-                adapter.setList(images);
+                adapter.setList(listAux);
+                rvImages.setHasFixedSize(true);
             }
+        }
+
+        /**
+         * Creates a predefined list to show in detail project.
+         * @param images
+         * @return
+         */
+        @NonNull
+        private List<Image> createReducedList(@Nullable List<Image> images) {
+            int length = 4;
+            if (images != null && images.size() < length) {
+                length = images.size();
+            }
+            List<Image> listAux = new ArrayList<>();
+            for (int i = 0; i < length; i++) {
+                listAux.add(images.get(i));
+            }
+            return listAux;
         }
     };
 
@@ -163,6 +186,8 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
 
     @Override
     public void onClick() {
-
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, null).commit();
     }
 }

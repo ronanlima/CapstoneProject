@@ -105,6 +105,8 @@ public class FirebaseViewModel extends AndroidViewModel {
                             }
 
                             getDataImage().postValue(list);
+                        } else {
+                            getDataImage().postValue(null);
                         }
                     }
 
