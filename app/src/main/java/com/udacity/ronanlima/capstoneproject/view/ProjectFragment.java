@@ -188,6 +188,7 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
     public void onClick() {
         FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragment_container, null).commit();
+        GalleryFragment fragment = new GalleryFragment();
+        ft.replace(R.id.fragment_container, fragment).commit();
     }
 }

@@ -19,4 +19,7 @@
     <dimen name="margin_bottom_cardview_project">@dimen/margin_left_cardview_project</dimen>
     <dimen name="corner_radius">2dp</dimen>
     <dimen name="card_elevation">2dp</dimen>
+
+    <dimen name="margin_left_item_gallery">2dp</dimen>
+    <dimen name="margin_start_item_gallery">@dimen/margin_left_item_gallery</dimen>
 </resources>
