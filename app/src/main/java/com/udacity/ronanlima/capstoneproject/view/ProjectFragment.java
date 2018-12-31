@@ -61,38 +61,50 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
     private ProjectDetailActivity activity;
     private ImageAdapter adapter;
 
+    /**
+     * Config the adapter to display images
+     *
+     * @param images
+     */
+    private void configListImage(@Nullable List<Image> images) {
+        List<Image> listAux = createReducedList(images);
+        if (adapter != null && !images.isEmpty()) {
+            adapter.setList(listAux);
+        } else {
+            adapter = new ImageAdapter(ProjectFragment.this);
+            adapter.setList(listAux);
+            rvImages.setHasFixedSize(true);
+        }
+        rvImages.setAdapter(adapter);
+    }
+
     Observer observer = new Observer<List<Image>>() {
+
         @Override
         public void onChanged(@Nullable List<Image> images) {
-            List<Image> listAux = createReducedList(images);
-            if (adapter != null && !images.isEmpty()) {
-                adapter.setList(listAux);
-            } else {
-                adapter = new ImageAdapter(ProjectFragment.this);
-                rvImages.setAdapter(adapter);
-                adapter.setList(listAux);
-                rvImages.setHasFixedSize(true);
-            }
+            configListImage(images);
         }
 
-        /**
-         * Creates a predefined list to show in detail project.
-         * @param images
-         * @return
-         */
-        @NonNull
-        private List<Image> createReducedList(@Nullable List<Image> images) {
-            int length = 4;
-            if (images != null && images.size() < length) {
-                length = images.size();
-            }
-            List<Image> listAux = new ArrayList<>();
-            for (int i = 0; i < length; i++) {
-                listAux.add(images.get(i));
-            }
-            return listAux;
-        }
     };
+
+    /**
+     * Creates a predefined list to show in detail project.
+     *
+     * @param images
+     * @return
+     */
+    @NonNull
+    private List<Image> createReducedList(@Nullable List<Image> images) {
+        int length = 4;
+        if (images != null && images.size() < length) {
+            length = images.size();
+        }
+        List<Image> listAux = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            listAux.add(images.get(i));
+        }
+        return listAux;
+    }
 
     @Nullable
     @Override
@@ -100,6 +112,9 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
         View v = inflater.inflate(R.layout.fragment_project, container, false);
         ButterKnife.bind(this, v);
         initViewModel();
+        if (adapter != null) {
+            configListImage(adapter.getList());
+        }
         project = getArguments().getParcelable(MainActivity.BUNDLE_PROJECT);
         configToolbar();
         setRetainInstance(true);
@@ -156,24 +171,26 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
 
                     try {
                         final Bitmap bitmap = load.get();
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                load.into(ivPrincipal);
-                            }
-                        });
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        if (getActivity() != null) {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ViewCompat.setTransitionName(ivPrincipal, getString(R.string.transition_cover));
-                                    Palette palette = Palette.generate(bitmap, 12);
-                                    final int darkMutedColor = palette.getDarkMutedColor(getResources().getColor(R.color.colorPrimary));
-                                    Window window = getActivity().getWindow();
-                                    int startColor = window.getStatusBarColor();
-                                    ObjectAnimator.ofArgb(window, "statusBarColor", startColor, darkMutedColor).start();
+                                    load.into(ivPrincipal);
                                 }
                             });
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ViewCompat.setTransitionName(ivPrincipal, getString(R.string.transition_cover));
+                                        Palette palette = Palette.generate(bitmap, 12);
+                                        final int darkMutedColor = palette.getDarkMutedColor(getResources().getColor(R.color.colorPrimary));
+                                        Window window = getActivity().getWindow();
+                                        int startColor = window.getStatusBarColor();
+                                        ObjectAnimator.ofArgb(window, "statusBarColor", startColor, darkMutedColor).start();
+                                    }
+                                });
+                            }
                         }
                     } catch (IOException e) {
                         Log.i(TAG, getString(R.string.exception_falha_carregar_imagem, project.getImagemCapa()));
@@ -189,6 +206,6 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
         FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         GalleryFragment fragment = new GalleryFragment();
-        ft.replace(R.id.fragment_container, fragment).commit();
+        ft.replace(R.id.fragment_container, fragment, GalleryFragment.TAG).addToBackStack(ProjectFragment.TAG).commit();
     }
 }

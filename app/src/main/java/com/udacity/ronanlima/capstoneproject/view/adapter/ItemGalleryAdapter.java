@@ -36,6 +36,8 @@ public class ItemGalleryAdapter extends RecyclerView.Adapter<ItemGalleryAdapter.
     private Context mContext;
     @Getter
     private List<Image> list;
+    private int auxItemPadding = 1;
+    private int itemPadding;
 
     public ItemGalleryAdapter(List<Image> list) {
         this.list = list;
@@ -45,6 +47,9 @@ public class ItemGalleryAdapter extends RecyclerView.Adapter<ItemGalleryAdapter.
     @Override
     public ItemGalleryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
+        if (itemPadding == 0) {
+            itemPadding = (int) mContext.getResources().getDimension(R.dimen.margin_left_item_gallery);
+        }
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_item_gallery, parent, false);
         return new ItemGalleryViewHolder(view);
     }
@@ -53,6 +58,10 @@ public class ItemGalleryAdapter extends RecyclerView.Adapter<ItemGalleryAdapter.
     public void onBindViewHolder(@NonNull ItemGalleryViewHolder holder, int position) {
         Image image = list.get(position);
         retrieveImageFromAppDirectory(holder, image);
+        if (position == auxItemPadding) {
+            holder.itemView.setPadding(itemPadding, 0, itemPadding, 0);
+            auxItemPadding += mContext.getResources().getInteger(R.integer.span_count_gallery);
+        }
     }
 
     /**

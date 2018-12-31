@@ -22,4 +22,7 @@
 
     <dimen name="margin_left_item_gallery">2dp</dimen>
     <dimen name="margin_start_item_gallery">@dimen/margin_left_item_gallery</dimen>
+    <dimen name="margin_rigth_item_gallery">2dp</dimen>
+    <dimen name="margin_end_item_gallery">@dimen/margin_rigth_item_gallery</dimen>
+    <dimen name="item_gallery_height">120dp</dimen>
 </resources>

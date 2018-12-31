@@ -20,7 +20,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Class that represents the gallery of selected project.
+ *
+ * @author ronanlima
+ * @since dezembro/2018
+ */
 public class GalleryFragment extends Fragment {
+    public static final String TAG = GalleryFragment.class.getSimpleName().toUpperCase();
 
     @BindView(R.id.rv_gallery)
     RecyclerView recyclerView;
@@ -33,15 +40,15 @@ public class GalleryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
         ButterKnife.bind(this, view);
         viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
-        List<Image> images = viewModel.getDataImage().getValue();
-        adapter = new ItemGalleryAdapter(images);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        List<Image> images = viewModel.getDataImage().getValue();
+        adapter = new ItemGalleryAdapter(images);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
     }
 }
