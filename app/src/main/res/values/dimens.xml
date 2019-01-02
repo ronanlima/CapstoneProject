@@ -11,6 +11,9 @@
 
     <dimen name="width_iv_adapter">96dp</dimen>
     <dimen name="height_iv_adapter">96dp</dimen>
+    <dimen name="margin_top_iv_adapter">4dp</dimen>
+    <dimen name="margin_right_iv_adapter">4dp</dimen>
+    <dimen name="margin_end_iv_adapter">@dimen/margin_right_iv_adapter</dimen>
 
     <dimen name="height_cardview_project">135dp</dimen>
     <dimen name="margin_left_cardview_project">8dp</dimen>

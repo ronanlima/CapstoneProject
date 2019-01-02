@@ -21,4 +21,12 @@
         <item name="android:background">@android:color/white</item>
     </style>
 
+    <style name="IVAdapter">
+        <item name="android:layout_marginRight">@dimen/margin_right_iv_adapter</item>
+        <item name="android:layout_marginEnd">@dimen/margin_end_iv_adapter</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_iv_adapter</item>
+        <item name="android:layout_width">@dimen/width_iv_adapter</item>
+        <item name="android:layout_height">@dimen/height_iv_adapter</item>
+    </style>
+
 </resources>

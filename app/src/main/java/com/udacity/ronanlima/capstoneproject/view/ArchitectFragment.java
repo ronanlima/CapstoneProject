@@ -1,16 +1,17 @@
 package com.udacity.ronanlima.capstoneproject.view;
 
+import android.app.ActivityOptions;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,9 +104,13 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
         Bundle b = new Bundle();
         b.putParcelable(MainActivity.BUNDLE_PROJECT, project);
         i.putExtras(b);
-        ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(getActivity(), Pair.create(views[0], getString(R.string.transition_cover)), Pair.create(views[1], getString(R.string.transition_project_name)));
-        startActivity(i, options.toBundle());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), views[0], views[0].getTransitionName());
+            getActivity().getWindow().setReenterTransition(new Fade());
+            startActivity(i, options.toBundle());
+        } else {
+            startActivity(i);
+        }
     }
 
 }

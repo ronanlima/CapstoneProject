@@ -1,6 +1,7 @@
 package com.udacity.ronanlima.capstoneproject.view;
 
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Bitmap;
@@ -15,11 +16,15 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -47,6 +52,7 @@ import butterknife.ButterKnife;
  */
 public class ProjectFragment extends Fragment implements ImageAdapter.OnImageItemClickListener {
     public static final String TAG = ProjectFragment.class.getSimpleName().toUpperCase();
+    public static final int SLIDE_DURATION = 300;
 
     private FirebaseViewModel viewModel;
     private Project project;
@@ -117,8 +123,31 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
         }
         project = getArguments().getParcelable(MainActivity.BUNDLE_PROJECT);
         configToolbar();
+        animateEnterTransition();
+        tvInfoProjeto.setText(project.getDescricao());
         setRetainInstance(true);
         return v;
+    }
+
+    /**
+     * Animate the enter animation if the version of device is highter than lollipop
+     */
+    private void animateEnterTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Slide slide = slideInfoProject();
+            getActivity().getWindow().setEnterTransition(slide);
+            getActivity().getWindow().setReturnTransition(new Fade());
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @NonNull
+    private Slide slideInfoProject() {
+        Slide slide = new Slide(Gravity.BOTTOM);
+        slide.addTarget(tvInfoProjeto);
+        slide.setDuration(SLIDE_DURATION);
+        slide.setInterpolator(AnimationUtils.loadInterpolator(getActivity(), android.R.interpolator.linear_out_slow_in));
+        return slide;
     }
 
     /**
@@ -145,7 +174,6 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         verifyInternetConnection();
-        tvInfoProjeto.setText(project.getDescricao());
     }
 
     /**
