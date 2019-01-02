@@ -1,10 +1,8 @@
 package com.udacity.ronanlima.capstoneproject.view;
 
-import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,8 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
@@ -23,12 +19,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
+import com.udacity.ronanlima.capstoneproject.AppExecutors;
 import com.udacity.ronanlima.capstoneproject.MainActivity;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Image;
@@ -38,6 +34,7 @@ import com.udacity.ronanlima.capstoneproject.view.adapter.ImageAdapter;
 import com.udacity.ronanlima.capstoneproject.viewmodel.FirebaseViewModel;
 import com.udacity.ronanlima.capstoneproject.widget.ProportionThreeTwoImageView;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -191,42 +188,30 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
     }
 
     private void setImagemPrincipal() {
-        new Thread(new Runnable() {
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
                 if (getActivity() != null) {
-                    final RequestCreator load = Picasso.get().load(project.getImagemCapa()).placeholder(R.drawable.img_project_default);
+                    File file = new File(project.getUriImagemCapa());
+                    final RequestCreator load = Picasso.get().load(file).placeholder(R.drawable.img_project_default);
 
                     try {
-                        final Bitmap bitmap = load.get();
+                        load.get();
                         if (getActivity() != null) {
-                            getActivity().runOnUiThread(new Runnable() {
+                            AppExecutors.getInstance().getMainThread().execute(new Runnable() {
                                 @Override
                                 public void run() {
                                     load.into(ivPrincipal);
                                 }
                             });
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ViewCompat.setTransitionName(ivPrincipal, getString(R.string.transition_cover));
-                                        Palette palette = Palette.generate(bitmap, 12);
-                                        final int darkMutedColor = palette.getDarkMutedColor(getResources().getColor(R.color.colorPrimary));
-                                        Window window = getActivity().getWindow();
-                                        int startColor = window.getStatusBarColor();
-                                        ObjectAnimator.ofArgb(window, "statusBarColor", startColor, darkMutedColor).start();
-                                    }
-                                });
-                            }
                         }
                     } catch (IOException e) {
-                        Log.i(TAG, getString(R.string.exception_falha_carregar_imagem, project.getImagemCapa()));
+                        Log.i(TAG, getString(R.string.exception_falha_carregar_imagem, project.getUriImagemCapa()));
                         Log.e(TAG, e.getMessage());
                     }
                 }
             }
-        }).start();
+        });
     }
 
     @Override
@@ -234,6 +219,9 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
         FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         GalleryFragment fragment = new GalleryFragment();
+        Bundle b = new Bundle();
+        b.putParcelable(MainActivity.BUNDLE_PROJECT, project);
+        fragment.setArguments(b);
         ft.replace(R.id.fragment_container, fragment, GalleryFragment.TAG).addToBackStack(ProjectFragment.TAG).commit();
     }
 }
