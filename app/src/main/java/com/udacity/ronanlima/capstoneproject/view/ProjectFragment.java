@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.util.Log;
@@ -50,6 +51,7 @@ import butterknife.ButterKnife;
 public class ProjectFragment extends Fragment implements ImageAdapter.OnImageItemClickListener {
     public static final String TAG = ProjectFragment.class.getSimpleName().toUpperCase();
     public static final int SLIDE_DURATION = 300;
+    public static final int EXPLODE_DURATION = 300;
 
     private FirebaseViewModel viewModel;
     private Project project;
@@ -222,6 +224,18 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
         Bundle b = new Bundle();
         b.putParcelable(MainActivity.BUNDLE_PROJECT, project);
         fragment.setArguments(b);
-        ft.replace(R.id.fragment_container, fragment, GalleryFragment.TAG).addToBackStack(ProjectFragment.TAG).commit();
+        animateTransitionGallery();
+        ft.replace(R.id.fragment_container, fragment, GalleryFragment.TAG).addToBackStack(ProjectFragment.TAG).commitAllowingStateLoss();
+    }
+
+    /**
+     * Animate the transition if the version of Android is higher than lollipop
+     */
+    private void animateTransitionGallery() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Explode explode = new Explode();
+            explode.setDuration(EXPLODE_DURATION);
+            setExitTransition(explode);
+        }
     }
 }
