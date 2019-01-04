@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#F44336</color>
     <color name="colorPrimaryDark">#D32F2F</color>
-    <color name="colorAccent">#FFC107</color>
+    <color name="colorAccent">#ffc107</color>
     <color name="primaryDarkTextColor">#424242</color>
     <color name="background">#dddddd</color>
     <color name="shimmerColor">#e2e2e2</color>

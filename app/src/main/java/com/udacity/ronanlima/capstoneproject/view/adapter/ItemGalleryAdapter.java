@@ -38,9 +38,11 @@ public class ItemGalleryAdapter extends RecyclerView.Adapter<ItemGalleryAdapter.
     private List<Image> list;
     private int auxItemPadding = 1;
     private int itemPadding;
+    private ImageClick imageClick;
 
-    public ItemGalleryAdapter(List<Image> list) {
+    public ItemGalleryAdapter(List<Image> list, ImageClick imageClick) {
         this.list = list;
+        this.imageClick = imageClick;
     }
 
     @NonNull
@@ -56,12 +58,18 @@ public class ItemGalleryAdapter extends RecyclerView.Adapter<ItemGalleryAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ItemGalleryViewHolder holder, int position) {
-        Image image = list.get(position);
+        final Image image = list.get(position);
         retrieveImageFromAppDirectory(holder, image);
         if (position == auxItemPadding) {
             holder.itemView.setPadding(itemPadding, 0, itemPadding, 0);
             auxItemPadding += mContext.getResources().getInteger(R.integer.span_count_gallery);
         }
+        holder.ivItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageClick.onClick((ImageView) view, image.getUriImagem());
+            }
+        });
     }
 
     /**
@@ -111,6 +119,10 @@ public class ItemGalleryAdapter extends RecyclerView.Adapter<ItemGalleryAdapter.
     public void setList(List<Image> list) {
         this.list = list;
         notifyDataSetChanged();
+    }
+
+    public interface ImageClick {
+        void onClick(ImageView view, String uriImage);
     }
 
     class ItemGalleryViewHolder extends RecyclerView.ViewHolder {
