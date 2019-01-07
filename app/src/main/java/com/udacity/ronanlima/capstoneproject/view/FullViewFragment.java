@@ -2,25 +2,20 @@ package com.udacity.ronanlima.capstoneproject.view;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.graphics.Matrix;
-import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
+import com.ortiz.touchview.TouchImageView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.udacity.ronanlima.capstoneproject.AppExecutors;
@@ -42,24 +37,10 @@ public class FullViewFragment extends Fragment implements Runnable {
     public static final String TAG = FullViewFragment.class.getSimpleName().toUpperCase();
 
     @BindView(R.id.iv_full_view)
-    ImageView ivFullView;
+    TouchImageView ivFullView;
     private Handler _handler;
     private ScaleGestureDetector mScaleGestureDetector;
     private float mScaleFactor = 1.0f;
-
-    Matrix matrix = new Matrix();
-    Matrix savedMatrix = new Matrix();
-
-    // We can be in one of these 3 states
-    static final int NONE = 0;
-    static final int DRAG = 1;
-    static final int ZOOM = 2;
-    int mode = NONE;
-
-    // Remember some things for zooming
-    PointF start = new PointF();
-    PointF mid = new PointF();
-    float oldDist = 1f;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,64 +78,6 @@ public class FullViewFragment extends Fragment implements Runnable {
 //            registerSystemUiVisibility();
 //        }
 
-        ivFullView.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View view, DragEvent dragEvent) {
-                return false;
-            }
-        });
-        ivFullView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                mScaleGestureDetector.onTouchEvent(motionEvent);
-
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_DOWN:
-                        savedMatrix.set(matrix);
-                        start.set(motionEvent.getX(), motionEvent.getY());
-                        Log.d(TAG, "mode=DRAG");
-                        mode = DRAG;
-                        break;
-                    case MotionEvent.ACTION_POINTER_DOWN:
-                        oldDist = spacing(motionEvent);
-                        Log.d(TAG, "oldDist=" + oldDist);
-                        if (oldDist > 10f) {
-                            savedMatrix.set(matrix);
-                            midPoint(mid, motionEvent);
-                            mode = ZOOM;
-                            Log.d(TAG, "mode=ZOOM");
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        int xDiff = (int) Math.abs(motionEvent.getX() - start.x);
-                        int yDiff = (int) Math.abs(motionEvent.getY() - start.y);
-                        if (xDiff < 8 && yDiff < 8) {
-                            ivFullView.performClick();
-                        }
-                    case MotionEvent.ACTION_POINTER_UP:
-                        mode = NONE;
-                        Log.d(TAG, "mode=NONE");
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if (mode == DRAG) {
-                            // ...
-                            matrix.set(savedMatrix);
-                            matrix.postTranslate(motionEvent.getX() - start.x, motionEvent.getY() - start.y);
-                        } else if (mode == ZOOM) {
-                            float newDist = spacing(motionEvent);
-                            Log.d(TAG, "newDist=" + newDist);
-                            if (newDist > 10f) {
-                                matrix.set(savedMatrix);
-                                float scale = newDist / oldDist;
-                                matrix.postScale(scale, scale, mid.x, mid.y);
-                            }
-                        }
-                        break;
-                }
-                ivFullView.setImageMatrix(matrix);
-                return true;
-            }
-        });
         return view;
     }
 
@@ -259,23 +182,4 @@ public class FullViewFragment extends Fragment implements Runnable {
         }
     }
 
-    /**
-     * Determine the space between the first two fingers
-     */
-    private float spacing(MotionEvent event) {
-        // ...
-        float x = event.getX(0) - event.getX(1);
-        float y = event.getY(0) - event.getY(1);
-        return (float) Math.sqrt(x * x + y * y);
-    }
-
-    /**
-     * Calculate the mid point of the first two fingers
-     */
-    private void midPoint(PointF point, MotionEvent event) {
-        // ...
-        float x = event.getX(0) + event.getX(1);
-        float y = event.getY(0) + event.getY(1);
-        point.set(x / 2, y / 2);
-    }
 }
