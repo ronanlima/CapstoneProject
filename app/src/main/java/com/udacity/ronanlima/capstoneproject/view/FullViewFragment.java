@@ -34,10 +34,17 @@ public class FullViewFragment extends Fragment implements View.OnSystemUiVisibil
     @BindView(R.id.iv_full_view)
     ImageView ivFullView;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_full_view, container, false);
+        fullScreen();
         ButterKnife.bind(this, view);
         final String uriImage = getArguments().getString(GalleryFragment.ARGUMENT_URI_IMAGE);
         AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
@@ -51,7 +58,6 @@ public class FullViewFragment extends Fragment implements View.OnSystemUiVisibil
                         @Override
                         public void run() {
                             load.into(ivFullView);
-                            fullScreen(ivFullView);
                         }
                     });
                 } catch (IOException e) {
@@ -62,7 +68,7 @@ public class FullViewFragment extends Fragment implements View.OnSystemUiVisibil
         return view;
     }
 
-    private void fullScreen(ImageView view) {
+    private void fullScreen() {
 //        int uiOptions = view.getSystemUiVisibility();
 //        int newUiOptions = uiOptions;
 //        boolean isImmersiveModeEnabled = ((uiOptions | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) == uiOptions);
@@ -90,11 +96,7 @@ public class FullViewFragment extends Fragment implements View.OnSystemUiVisibil
         // Enables regular immersive mode.
         // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
         // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        view.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         // Hide the nav bar and status bar
