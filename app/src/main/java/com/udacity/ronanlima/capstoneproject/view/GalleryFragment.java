@@ -1,7 +1,6 @@
 package com.udacity.ronanlima.capstoneproject.view;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +43,7 @@ public class GalleryFragment extends Fragment implements ItemGalleryAdapter.Imag
     private ItemGalleryAdapter adapter;
     private ProjectDetailActivity activity;
     private Project project;
-    public static final String ARGUMENT_URI_IMAGE = "URI_IMAGE";
+    public static final String ARGUMENT_POSITION_IMAGE = "POSITION_IMAGE";
 
     @Nullable
     @Override
@@ -79,39 +77,14 @@ public class GalleryFragment extends Fragment implements ItemGalleryAdapter.Imag
     }
 
     @Override
-    public void onClick(ImageView view, String uriImagem) {
-//        fullScreen(view);
+    public void onClick(ImageView view, int imagePosition) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         FullViewFragment fragment = new FullViewFragment();
         Bundle b = new Bundle();
-        b.putString(ARGUMENT_URI_IMAGE, uriImagem);
+        b.putInt(ARGUMENT_POSITION_IMAGE, imagePosition);
         fragment.setArguments(b);
         ft.replace(R.id.fragment_container, fragment).addToBackStack(GalleryFragment.TAG).commitAllowingStateLoss();
     }
 
-    private void fullScreen(ImageView view) {
-        int uiOptions = view.getSystemUiVisibility();
-        int newUiOptions = uiOptions;
-        boolean isImmersiveModeEnabled = ((uiOptions | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) == uiOptions);
-        if (isImmersiveModeEnabled) {
-            Log.i(TAG, "Turning immersive mode off");
-        } else {
-            Log.i(TAG, "Turning immersive mode on");
-        }
-
-        if (Build.VERSION.SDK_INT >= 14) {
-            newUiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-        }
-
-        if (Build.VERSION.SDK_INT >= 16) {
-            newUiOptions ^= View.SYSTEM_UI_FLAG_FULLSCREEN;
-        }
-
-        if (Build.VERSION.SDK_INT >= 18) {
-            newUiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        }
-
-        view.setSystemUiVisibility(newUiOptions);
-    }
 }
