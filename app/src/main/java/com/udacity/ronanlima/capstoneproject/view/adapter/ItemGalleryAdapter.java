@@ -90,6 +90,7 @@ public class ItemGalleryAdapter extends RecyclerView.Adapter<ItemGalleryAdapter.
                         @Override
                         public void run() {
                             displayImage(load, holder);
+                            holder.ivItem.setContentDescription(image.getNome());
                         }
                     });
                 } catch (IOException e) {

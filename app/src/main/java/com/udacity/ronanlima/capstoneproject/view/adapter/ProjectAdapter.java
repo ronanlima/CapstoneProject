@@ -89,6 +89,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
                         @Override
                         public void run() {
                             load.into(holder.ivPoster);
+                            changeContentDescriptionOfImage(project.getNomeProjeto(), holder);
                         }
                     });
                     saveImageLocally(bitmap, project);
@@ -118,6 +119,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
                         @Override
                         public void run() {
                             load.into(holder.ivPoster);
+                            changeContentDescriptionOfImage(project.getNomeProjeto(), holder);
                         }
                     });
                 } catch (IOException e) {
@@ -125,6 +127,18 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
                 }
             }
         });
+    }
+
+    /**
+     * Change the default content description of poster project.
+     *
+     * @param nomeProjeto
+     * @param holder
+     */
+    private void changeContentDescriptionOfImage(String nomeProjeto, ProjectVH holder) {
+        String contentDescription = holder.ivPoster.getContentDescription().toString();
+        contentDescription += String.format(" %s", nomeProjeto);
+        holder.ivPoster.setContentDescription(contentDescription);
     }
 
     private void saveImageLocally(Bitmap bitmap, final Project project) throws FileNotFoundException {

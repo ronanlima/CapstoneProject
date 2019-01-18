@@ -89,6 +89,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                         @Override
                         public void run() {
                             displayImage(load, holder);
+                            changeContentDescriptionOfImage(image.getNome(), holder);
                         }
                     });
                 } catch (IOException e) {
@@ -96,6 +97,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 }
             }
         });
+    }
+
+    /**
+     * Change the default content description of poster project.
+     *
+     * @param imageName
+     * @param holder
+     */
+    private void changeContentDescriptionOfImage(String imageName, ImageViewHolder holder) {
+        holder.ivItem.setContentDescription(imageName);
     }
 
     /**
@@ -127,6 +138,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                         @Override
                         public void run() {
                             displayImage(load, holder);
+                            changeContentDescriptionOfImage(image.getNome(), holder);
                         }
                     });
                     saveImageLocally(bitmap, image);

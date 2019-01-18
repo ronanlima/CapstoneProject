@@ -40,6 +40,7 @@ public class PicassoDiskImageLoader implements MediaLoader {
 
     @Override
     public void loadThumbnail(Context context, final ImageView thumbnailView, final MediaLoader.SuccessCallback callback) {
+        thumbnailView.setContentDescription(uri.substring(uri.lastIndexOf("/") + 1, uri.lastIndexOf(".")));
         File file = new File(uri);
         Picasso.get()
                 .load(file)

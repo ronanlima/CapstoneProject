@@ -23,5 +23,10 @@
 
     <!-- Content description -->
     <string name="desc_logo">Visiva Arquitetura</string>
-    <string name="desc_image_item">Imagem do projeto %1s</string>
+    <string name="desc_image_item">Imagem do projeto</string>
+    <string name="desc_bottom_navigation">Visualizção de projetos</string>
+    <string name="desc_shortcut_email">Atalho para enviar e-mail</string>
+    <string name="desc_loading">Imagem carregando</string>
+    <string name="desc_imagem_capa">Imagem da capa do projeto</string>
+    <string name="desc_slide_images">Exibição das imagens do projeto, em tela cheia.</string>
 </resources>

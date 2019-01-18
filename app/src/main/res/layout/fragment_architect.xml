@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:padding="4dp"
         app:shimmer_demo_angle="20"
+        android:contentDescription="@string/desc_loading"
         app:shimmer_demo_child_count="9"
         app:shimmer_demo_grid_child_count="2"
         app:shimmer_demo_layout="@layout/data_placeholder_layout"

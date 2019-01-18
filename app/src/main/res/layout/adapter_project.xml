@@ -32,6 +32,7 @@
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_project_default"
+                android:contentDescription="@string/desc_imagem_capa"
                 android:transitionName="@string/transition_cover" />
 
             <TextView
