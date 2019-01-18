@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
-import com.udacity.ronanlima.capstoneproject.MainActivity;
 import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Project;
 import com.udacity.ronanlima.capstoneproject.enums.Proposito;

@@ -1,4 +1,4 @@
-package com.udacity.ronanlima.capstoneproject;
+package com.udacity.ronanlima.capstoneproject.view;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.udacity.ronanlima.capstoneproject.AppExecutors;
+import com.udacity.ronanlima.capstoneproject.R;
 import com.udacity.ronanlima.capstoneproject.data.Project;
 import com.udacity.ronanlima.capstoneproject.database.AppDatabase;
 import com.udacity.ronanlima.capstoneproject.view.adapter.NavigationViewAdapter;

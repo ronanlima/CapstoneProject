@@ -3,6 +3,7 @@ package com.udacity.ronanlima.capstoneproject.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -11,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.udacity.ronanlima.capstoneproject.AppExecutors;
 import com.udacity.ronanlima.capstoneproject.R;
+import com.udacity.ronanlima.capstoneproject.VisivaArqService;
 import com.udacity.ronanlima.capstoneproject.data.Image;
 import com.udacity.ronanlima.capstoneproject.data.Project;
 import com.udacity.ronanlima.capstoneproject.database.AppDatabase;
@@ -81,6 +83,9 @@ public class FirebaseViewModel extends AndroidViewModel {
                 for (Project p : value) {
                     AppDatabase.getInstance(getApplication()).projectDAO().insertProject(p);
                 }
+                Bundle bundle = new Bundle();
+                bundle.putInt(VisivaArqService.BUNDLE_QUANT_PROJ, value.size());
+                VisivaArqService.updateQuantProj(getApplication(), bundle);
             }
         });
     }
