@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -15,6 +16,7 @@ import android.support.annotation.Nullable;
 public class VisivaArqService extends IntentService {
     public static final String TAG = VisivaArqService.class.getSimpleName().toUpperCase();
     public static final String ACTION_UPDATE_QUANT_PROJ = "com.udacity.ronanlima.capstoneproject.update_quant_proj";
+    public static final String ACTION_UPDATE_WIDGET = "com.udacity.ronanlima.capstoneproject.update_widget";
     public static final String BUNDLE_QUANT_PROJ = "BUNDLE_QUANT_PROJ";
     public static final String BUNDLE_MESSAGE_ONE = "BUNDLE_MESSAGE_ONE";
     public static final String BUNDLE_MESSAGE_TWO = "BUNDLE_MESSAGE_TWO";
@@ -26,11 +28,17 @@ public class VisivaArqService extends IntentService {
         super("VisivaArqService");
     }
 
-    public static void updateQuantProj(Context context, Bundle bundle) {
+    public static void startActionUpdateQuantProj(Context context, Bundle bundle) {
         Intent intent = new Intent(context, VisivaArqService.class);
         intent.setAction(ACTION_UPDATE_QUANT_PROJ);
         intent.putExtras(bundle);
         context.startService(intent);
+    }
+
+    public static void startActionUpdateWidget(Context context) {
+        Intent i = new Intent(context, VisivaArqService.class);
+        i.setAction(ACTION_UPDATE_WIDGET);
+        context.startService(i);
     }
 
     @Override
@@ -38,23 +46,31 @@ public class VisivaArqService extends IntentService {
         if (intent != null) {
             if (intent.getAction().equals(ACTION_UPDATE_QUANT_PROJ)) {
                 handleActionUpdateQuantProj(intent.getExtras());
+            } else if (intent.getAction().equals(ACTION_UPDATE_WIDGET)) {
+                handleActionUpdateWidget();
             }
         }
     }
 
-    private void handleActionUpdateQuantProj(Bundle extras) {
+    private void handleActionUpdateWidget() {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, VisivaArqWidgetProvider.class));
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.list_message);
-        updateBundle(extras);
-        VisivaArqWidgetProvider.updateVisivaArqWidget(this, appWidgetManager, appWidgetIds, extras);
+        VisivaArqWidgetProvider.updateVisivaArqWidget(this, appWidgetManager, appWidgetIds);
     }
 
-    private void updateBundle(Bundle bundle) {
+    private void handleActionUpdateQuantProj(Bundle extras) {
+        updatePreferences(extras);
+        startActionUpdateWidget(this);
+    }
+
+    private void updatePreferences(Bundle bundle) {
+        SharedPreferences sharedPreferences = getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         int quantProj = bundle.getInt(BUNDLE_QUANT_PROJ, 1);
         String fmt = String.format("%02d", quantProj);
         String quantFmt = getApplicationContext().getString(R.string.widget_info_quant_proj, fmt);
-        bundle.putString(BUNDLE_MESSAGE_ONE, quantFmt);
-        bundle.putString(BUNDLE_MESSAGE_TWO, getApplicationContext().getString(R.string.tv_widget_click_here));
+        editor.putString(BuildConfig.PREF_QUANT_PROJ, quantFmt);
+        editor.commit();
     }
 }

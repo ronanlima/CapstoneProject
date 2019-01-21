@@ -85,7 +85,7 @@ public class FirebaseViewModel extends AndroidViewModel {
                 }
                 Bundle bundle = new Bundle();
                 bundle.putInt(VisivaArqService.BUNDLE_QUANT_PROJ, value.size());
-                VisivaArqService.updateQuantProj(getApplication(), bundle);
+                VisivaArqService.startActionUpdateQuantProj(getApplication(), bundle);
             }
         });
     }
