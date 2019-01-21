@@ -64,7 +64,7 @@ public class FullViewFragment extends Fragment {
         } else {
             buildEmptyGallery();
         }
-
+        setRetainInstance(true);
         return view;
     }
 

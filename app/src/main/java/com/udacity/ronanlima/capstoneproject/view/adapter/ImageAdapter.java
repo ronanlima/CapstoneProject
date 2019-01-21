@@ -158,6 +158,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
+                Log.e(TAG, image.toString());
                 AppDatabase.getInstance(mContext).imageDAO().insertImage(image);
             }
         });

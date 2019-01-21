@@ -45,17 +45,21 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
     Observer observerProjects = new Observer<List<Project>>() {
         @Override
         public void onChanged(@Nullable List<Project> projects) {
-            List<Project> listArchitecture = mountArchitecureList(projects);
-            shimmerRecyclerView.hideShimmerAdapter();
-            if (!listArchitecture.isEmpty() && adapter != null) {
-                adapter.setList(projects);
-            } else {
-                adapter = new ProjectAdapter(ArchitectFragment.this);
-                recyclerView.setAdapter(adapter);
-                adapter.setList(projects);
-            }
+            configProjectAdapter(projects);
         }
     };
+
+    private void configProjectAdapter(@Nullable List<Project> projects) {
+        List<Project> listArchitecture = mountArchitecureList(projects);
+        shimmerRecyclerView.hideShimmerAdapter();
+        if (!listArchitecture.isEmpty() && adapter != null) {
+            adapter.setList(projects);
+        } else {
+            adapter = new ProjectAdapter(ArchitectFragment.this);
+            adapter.setList(projects);
+        }
+        recyclerView.setAdapter(adapter);
+    }
 
     @NonNull
     private List<Project> mountArchitecureList(@Nullable List<Project> projects) {
@@ -76,6 +80,9 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
         shimmerRecyclerView.showShimmerAdapter();
         viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
         observeProjects();
+        if (savedInstanceState != null && viewModel.getDataProject().getValue() != null) {
+            configProjectAdapter(viewModel.getDataProject().getValue());
+        }
         setRetainInstance(true);
         return view;
     }

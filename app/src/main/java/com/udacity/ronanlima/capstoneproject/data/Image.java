@@ -7,6 +7,7 @@ import android.arch.persistence.room.Index;
 import android.support.annotation.NonNull;
 
 import lombok.Data;
+import lombok.ToString;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
@@ -17,6 +18,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         onUpdate = CASCADE),
         primaryKeys = {"id", "idProjeto"}, indices = {@Index("idProjeto")})
 @Data
+@ToString
 public class Image {
     @NonNull
     private String id;

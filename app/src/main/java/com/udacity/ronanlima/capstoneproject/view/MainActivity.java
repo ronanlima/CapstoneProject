@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(i, getString(R.string.title_chooser_email)));
             }
         });
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null || viewModel.getDataProject().getValue() == null) {
             getDataProject();
         }
     }
