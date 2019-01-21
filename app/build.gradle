@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -12,10 +16,21 @@ android {
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "PREF_QUANT_PROJ", '"pref_quant_proj"'
     }
+
+    signingConfigs {
+        release {
+            storeFile file(keystoreProperties['storeFile'])
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -27,9 +42,9 @@ def firebaseVersion = '16.0.3'
 def butterknifeVersion = '8.8.1'
 
 dependencies {
-    compileOnly "org.projectlombok:lombok:1.18.4"
+    compileOnly 'org.projectlombok:lombok:1.18.4'
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     implementation "com.android.support:appcompat-v7:$androidVersion"
     implementation "com.android.support:recyclerview-v7:$androidVersion"

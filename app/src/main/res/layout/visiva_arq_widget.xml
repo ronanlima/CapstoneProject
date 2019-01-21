@@ -4,7 +4,6 @@
     android:background="@color/colorPrimaryDark"
     android:padding="@dimen/widget_margin">
 
-
     <ListView
         android:id="@+id/list_message"
         android:layout_width="match_parent"

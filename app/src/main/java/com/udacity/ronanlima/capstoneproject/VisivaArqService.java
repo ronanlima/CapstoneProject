@@ -14,12 +14,9 @@ import android.support.annotation.Nullable;
  */
 
 public class VisivaArqService extends IntentService {
-    public static final String TAG = VisivaArqService.class.getSimpleName().toUpperCase();
     public static final String ACTION_UPDATE_QUANT_PROJ = "com.udacity.ronanlima.capstoneproject.update_quant_proj";
     public static final String ACTION_UPDATE_WIDGET = "com.udacity.ronanlima.capstoneproject.update_widget";
     public static final String BUNDLE_QUANT_PROJ = "BUNDLE_QUANT_PROJ";
-    public static final String BUNDLE_MESSAGE_ONE = "BUNDLE_MESSAGE_ONE";
-    public static final String BUNDLE_MESSAGE_TWO = "BUNDLE_MESSAGE_TWO";
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
