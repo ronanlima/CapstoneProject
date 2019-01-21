@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.udacity.ronanlima.capstoneproject.PicassoDiskImageLoader;
 import com.udacity.ronanlima.capstoneproject.R;
@@ -16,6 +17,7 @@ import com.udacity.ronanlima.capstoneproject.data.Image;
 import com.udacity.ronanlima.capstoneproject.viewmodel.FirebaseViewModel;
 import com.veinhorn.scrollgalleryview.MediaInfo;
 import com.veinhorn.scrollgalleryview.ScrollGalleryView;
+import com.veinhorn.scrollgalleryview.loader.DefaultImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,17 +53,47 @@ public class FullViewFragment extends Fragment {
 
         final List<MediaInfo> infos = new ArrayList<>(FullViewFragment.this.images.size());
         for (Image img : images) {
-            infos.add(MediaInfo.mediaLoader(new PicassoDiskImageLoader(img.getUriImagem())));
+            String uriImagem = img.getUriImagem();
+            if (uriImagem != null && !uriImagem.isEmpty()) {
+                infos.add(MediaInfo.mediaLoader(new PicassoDiskImageLoader(uriImagem)));
+            }
         }
 
+        if (!infos.isEmpty()) {
+            buildView(position, infos);
+        } else {
+            buildEmptyGallery();
+        }
+
+        return view;
+    }
+
+    /**
+     * Build a view with images
+     *
+     * @param position
+     * @param infos
+     */
+    private void buildView(int position, List<MediaInfo> infos) {
         scrollGalleryView
                 .setThumbnailSize(100)
                 .setZoom(true)
                 .setFragmentManager(getFragmentManager())
                 .addMedia(infos);
-
         scrollGalleryView.getViewPager().setCurrentItem(position);
-        return view;
+    }
+
+    /**
+     * Build an empty view
+     */
+    private void buildEmptyGallery() {
+        scrollGalleryView
+                .setThumbnailSize(100)
+                .setZoom(false)
+                .setFragmentManager(getFragmentManager())
+                .addMedia(MediaInfo.mediaLoader(new DefaultImageLoader(R.drawable.img_project_default)));
+        scrollGalleryView.hideThumbnails();
+        Toast.makeText(getActivity(), getString(R.string.toast_empty_gallery), Toast.LENGTH_SHORT).show();
     }
 
 

@@ -82,22 +82,32 @@ public class ItemGalleryAdapter extends RecyclerView.Adapter<ItemGalleryAdapter.
         AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
-                File file = new File(image.getUriImagem());
-                final RequestCreator load = Picasso.get().load(file);
-                try {
-                    load.get();
-                    AppExecutors.getInstance().getMainThread().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            displayImage(load, holder);
-                            holder.ivItem.setContentDescription(image.getNome());
-                        }
-                    });
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage());
+                if (image != null && image.getUriImagem() != null) {
+                    File file = new File(image.getUriImagem());
+                    final RequestCreator load = Picasso.get().load(file);
+                    try {
+                        load.get();
+                        AppExecutors.getInstance().getMainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                displayImage(load, holder);
+                                holder.ivItem.setContentDescription(image.getNome());
+                            }
+                        });
+                    } catch (IOException e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+                } else {
+                    hideShimmerAnimation(holder);
+                    holder.ivItem.setBackground(mContext.getResources().getDrawable(R.drawable.img_project_default));
                 }
             }
         });
+    }
+
+    private void hideShimmerAnimation(@NonNull ItemGalleryViewHolder holder) {
+        holder.shimmerLayout.stopShimmerAnimation();
+        holder.shimmerLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -108,8 +118,7 @@ public class ItemGalleryAdapter extends RecyclerView.Adapter<ItemGalleryAdapter.
      */
     private void displayImage(RequestCreator load, @NonNull ItemGalleryAdapter.ItemGalleryViewHolder holder) {
         load.into(holder.ivItem);
-        holder.shimmerLayout.stopShimmerAnimation();
-        holder.shimmerLayout.setVisibility(View.GONE);
+        hideShimmerAnimation(holder);
     }
 
     @Override

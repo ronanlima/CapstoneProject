@@ -192,7 +192,7 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
         AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
-                if (getActivity() != null) {
+                if (getActivity() != null && project != null && project.getUriImagemCapa() != null) {
                     File file = new File(project.getUriImagemCapa());
                     final RequestCreator load = Picasso.get().load(file).placeholder(R.drawable.img_project_default);
 
@@ -210,6 +210,8 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
                         Log.i(TAG, getString(R.string.exception_falha_carregar_imagem, project.getUriImagemCapa()));
                         Log.e(TAG, e.getMessage());
                     }
+                } else if (getActivity() != null) {
+                    ivPrincipal.setBackground(getResources().getDrawable(R.drawable.img_project_default));
                 }
             }
         });

@@ -20,6 +20,7 @@
     <string name="title_imagens_projeto">Imagens</string>
     <string name="transition_cover">capa</string>
     <string name="transition_project_name">nameProject</string>
+    <string name="toast_empty_gallery">Não existem imagens a serem exibidas. Verifique sua conexão com a internet e tente novamente</string>
 
     <!-- Content description -->
     <string name="desc_logo">Visiva Arquitetura</string>
