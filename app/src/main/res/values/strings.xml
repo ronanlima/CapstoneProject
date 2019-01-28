@@ -37,4 +37,6 @@
     <string name="desc_widget">Atalho para entrar em contato com a Visiva Arquitetura</string>
     <string name="empty_projects">Nenhum projeto concluído</string>
     <string name="default_text_widget_adapter">Aqui vai uma mensagem padrão para ser utilizada no widget</string>
+    <string name="msg_wifi_off">Sem conexão com a Internet</string>
+    <string name="my_loading">Carregando projetos...</string>
 </resources>

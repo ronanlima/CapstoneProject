@@ -8,20 +8,52 @@
         android:id="@+id/shimmer_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/desc_loading"
         android:padding="4dp"
         app:shimmer_demo_angle="20"
-        android:contentDescription="@string/desc_loading"
         app:shimmer_demo_child_count="9"
         app:shimmer_demo_grid_child_count="2"
         app:shimmer_demo_layout="@layout/data_placeholder_layout"
         app:shimmer_demo_layout_manager_type="grid" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:padding="4dp"
-        android:scrollbarStyle="outsideOverlay"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:padding="4dp"
+                android:scrollbarStyle="outsideOverlay"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            <TextView
+                android:id="@+id/tv_loading"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/my_loading" />
+
+            <include
+                android:id="@+id/network_off"
+                layout="@layout/layout_network_off"
+                android:visibility="gone" />
+        </FrameLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </android.support.constraint.ConstraintLayout>

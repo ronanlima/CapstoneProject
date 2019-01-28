@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 List<Project> projects = AppDatabase.getInstance(MainActivity.this).projectDAO().loadAllProjects();
                 if (projects == null || projects.isEmpty()) {
-                    viewModel.retrieveProjects();
+                    viewModel.retrieveProjects(false);
                 } else {
                     viewModel.getDataProject().postValue(projects);
                 }

@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
+import android.database.sqlite.SQLiteConstraintException;
 
 import com.udacity.ronanlima.capstoneproject.data.Project;
 
@@ -20,8 +21,11 @@ public interface ProjectDAO {
     @Query("SELECT * FROM project")
     List<Project> loadAllProjects();
 
+    @Query("SELECT COUNT(*) FROM project")
+    int countProjects();
+
     @Insert
-    void insertProject(Project project);
+    void insertProject(Project project) throws SQLiteConstraintException;
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateProject(Project project);
