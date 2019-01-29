@@ -108,9 +108,7 @@ public class FirebaseViewModel extends AndroidViewModel {
                 }
                 if (isUpdate) {
                     int countProjects = AppDatabase.getInstance(getApplication()).projectDAO().countProjects();
-                    if (countProjects == getDataProject().getValue().size()) {
-                        getLiveDataUpdate().postValue(countProjects);
-                    }
+                    getLiveDataUpdate().postValue(countProjects);
                 }
                 Bundle bundle = new Bundle();
                 bundle.putInt(VisivaArqService.BUNDLE_QUANT_PROJ, value.size());
