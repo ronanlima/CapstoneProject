@@ -4,6 +4,6 @@
     android:initialLayout="@layout/visiva_arq_widget"
     android:minHeight="110dp"
     android:minWidth="110dp"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/ic_logo"
     android:updatePeriodMillis="172800000"
     android:widgetCategory="home_screen"></appwidget-provider>

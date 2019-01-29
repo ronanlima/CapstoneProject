@@ -46,11 +46,17 @@ public class FullViewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_full_view, container, false);
         ButterKnife.bind(this, view);
-        int position = getArguments().getInt(GalleryFragment.ARGUMENT_POSITION_IMAGE, 0);
         viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
         images = viewModel.getDataImage().getValue();
         configToolbar();
+        setRetainInstance(true);
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        int position = getArguments().getInt(GalleryFragment.ARGUMENT_POSITION_IMAGE, 0);
         final List<MediaInfo> infos = new ArrayList<>(FullViewFragment.this.images.size());
         for (Image img : images) {
             String uriImagem = img.getUriImagem();
@@ -64,8 +70,6 @@ public class FullViewFragment extends Fragment {
         } else {
             buildEmptyGallery();
         }
-        setRetainInstance(true);
-        return view;
     }
 
     /**

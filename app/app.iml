@@ -119,7 +119,6 @@
     <orderEntry type="library" name="com.google.android.gms:play-services-basement-16.0.1" level="project" />
     <orderEntry type="library" name="android.arch.persistence:db-1.1.1" level="project" />
     <orderEntry type="library" name="com.android.support:recyclerview-v7-27.1.1" level="project" />
-    <orderEntry type="library" name="com.veinhorn.scrollgalleryview:library-1.1.0" level="project" />
     <orderEntry type="library" name="android.arch.persistence.room:runtime-1.1.1" level="project" />
     <orderEntry type="library" scope="TEST" name="com.android.support.test:monitor-1.0.2" level="project" />
     <orderEntry type="library" name="android.arch.lifecycle:livedata-1.1.1" level="project" />
@@ -140,6 +139,7 @@
     <orderEntry type="library" name="android.arch.persistence.room:common:1.1.1@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="javax.inject:javax.inject:1@jar" level="project" />
     <orderEntry type="library" name="android.arch.lifecycle:extensions-1.1.1" level="project" />
+    <orderEntry type="library" name="com.veinhorn.scrollgalleryview:library-1.2.1" level="project" />
     <orderEntry type="library" name="android.arch.core:common:1.1.1@jar" level="project" />
     <orderEntry type="library" name="com.android.support:palette-v7-27.1.1" level="project" />
     <orderEntry type="library" name="com.android.support:support-vector-drawable-27.1.1" level="project" />
