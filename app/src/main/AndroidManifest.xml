@@ -35,6 +35,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.MainActivity" />
         </activity>
+        <activity
+            android:name=".view.FullViewActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
 
         <receiver android:name=".VisivaArqWidgetProvider">
             <intent-filter>

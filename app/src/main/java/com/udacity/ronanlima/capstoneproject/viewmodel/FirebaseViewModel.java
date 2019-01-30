@@ -157,6 +157,16 @@ public class FirebaseViewModel extends AndroidViewModel {
                 });
     }
 
+    public void retrieveImagesFromLocal(final String idProjeto) {
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Image> images = AppDatabase.getInstance(getApplication()).imageDAO().loadAllImages(idProjeto);
+                getDataImage().postValue(images);
+            }
+        });
+    }
+
     public MutableLiveData<List<Project>> getDataProject() {
         if (dataProject == null) {
             dataProject = new MutableLiveData<>();

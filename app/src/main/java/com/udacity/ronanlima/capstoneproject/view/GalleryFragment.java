@@ -1,12 +1,11 @@
 package com.udacity.ronanlima.capstoneproject.view;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -33,6 +32,7 @@ import butterknife.ButterKnife;
  */
 public class GalleryFragment extends Fragment implements ItemGalleryAdapter.ImageClick {
     public static final String TAG = GalleryFragment.class.getSimpleName().toUpperCase();
+    public static final String ARGUMENT_PROJECT_ID = "idProjeto";
 
     @BindView(R.id.rv_gallery)
     RecyclerView recyclerView;
@@ -77,13 +77,10 @@ public class GalleryFragment extends Fragment implements ItemGalleryAdapter.Imag
 
     @Override
     public void onClick(ImageView view, int imagePosition) {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        FullViewFragment fragment = new FullViewFragment();
-        Bundle b = new Bundle();
-        b.putInt(ARGUMENT_POSITION_IMAGE, imagePosition);
-        fragment.setArguments(b);
-        ft.replace(R.id.fragment_container, fragment).addToBackStack(GalleryFragment.TAG).commitAllowingStateLoss();
+        Intent i = new Intent(getActivity(), FullViewActivity.class);
+        i.putExtra(ARGUMENT_POSITION_IMAGE, imagePosition);
+        i.putExtra(ARGUMENT_PROJECT_ID, project.getId());
+        getActivity().startActivity(i);
     }
 
 }

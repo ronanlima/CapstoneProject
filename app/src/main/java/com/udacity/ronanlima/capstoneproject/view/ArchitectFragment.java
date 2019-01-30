@@ -81,10 +81,10 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
         List<Project> listArchitecture = mountArchitecureList(projects);
         shimmerRecyclerView.hideShimmerAdapter();
         if (!listArchitecture.isEmpty() && adapter != null) {
-            adapter.setList(projects);
+            adapter.setList(listArchitecture);
         } else {
-            adapter = new ProjectAdapter(ArchitectFragment.this);
-            adapter.setList(projects);
+            adapter = new ProjectAdapter(this);
+            adapter.setList(listArchitecture);
         }
         recyclerView.setAdapter(adapter);
         if (swipeRefreshLayout.isRefreshing()) {
@@ -125,15 +125,11 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
      * Verify if exists active observer to projects and in negative case, append one.
      */
     private void observeProjects() {
-        if (!viewModel.getDataProject().hasActiveObservers()) {
-            viewModel.getDataProject().observe(this, observerProjects);
-        }
+        viewModel.getDataProject().observe(this, observerProjects);
     }
 
     private void observerUpdate() {
-        if (!viewModel.getLiveDataUpdate().hasActiveObservers()) {
-            viewModel.getLiveDataUpdate().observe(this, observerUpdate);
-        }
+        viewModel.getLiveDataUpdate().observe(this, observerUpdate);
     }
 
     @Override
