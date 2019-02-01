@@ -30,7 +30,7 @@
     <string name="desc_loading">Imagem carregando</string>
     <string name="desc_imagem_capa">Imagem da capa do projeto</string>
     <string name="desc_slide_images">Exibição das imagens do projeto, em tela cheia.</string>
-    <string name="appwidget_text">Gostou de algum projeto? \n\nEntre em contato por e-mail</string>
+    <string name="appwidget_text">Example</string>
     <string name="add_widget">Add widget</string>
     <string name="widget_info_quant_proj">Atualmente temos %1s projetos que nos foram confiados.</string>
     <string name="tv_widget_click_here">Clique aqui e entre em contato por e-mail você também. Será um prazer atendê-lo(a)</string>

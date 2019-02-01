@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.udacity.ronanlima.capstoneproject.AppExecutors;
 import com.udacity.ronanlima.capstoneproject.R;
+import com.udacity.ronanlima.capstoneproject.VisivaArqService;
 import com.udacity.ronanlima.capstoneproject.data.Project;
 import com.udacity.ronanlima.capstoneproject.database.AppDatabase;
 import com.udacity.ronanlima.capstoneproject.view.adapter.NavigationViewAdapter;
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     viewModel.retrieveProjects(false);
                 } else {
                     viewModel.getDataProject().postValue(projects);
+                    VisivaArqService.startActionUpdateWidget(MainActivity.this);
                 }
             }
         });

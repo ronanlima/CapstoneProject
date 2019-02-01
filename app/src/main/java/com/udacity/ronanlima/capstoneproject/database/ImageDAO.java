@@ -18,7 +18,10 @@ import java.util.List;
 @Dao
 public interface ImageDAO {
     @Query("SELECT * FROM image WHERE idProjeto = :idProjeto")
-    List<Image> loadAllImages(String idProjeto);
+    List<Image> loadAllImagesFromProject(String idProjeto);
+
+    @Query("SELECT id, idProjeto, uriImagem FROM image")
+    List<Image> loadAllImages();
 
     @Insert
     void insertImage(Image image);

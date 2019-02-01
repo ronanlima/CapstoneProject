@@ -37,7 +37,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
             AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    List<Image> images = AppDatabase.getInstance(ProjectDetailActivity.this).imageDAO().loadAllImages(project.getId());
+                    List<Image> images = AppDatabase.getInstance(ProjectDetailActivity.this).imageDAO().loadAllImagesFromProject(project.getId());
                     if (images == null || images.isEmpty()) {
                         viewModel.retrieveImages(project.getId());
                     } else {

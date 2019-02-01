@@ -2,10 +2,8 @@ package com.udacity.ronanlima.capstoneproject.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.database.sqlite.SQLiteConstraintException;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -110,9 +108,7 @@ public class FirebaseViewModel extends AndroidViewModel {
                     int countProjects = AppDatabase.getInstance(getApplication()).projectDAO().countProjects();
                     getLiveDataUpdate().postValue(countProjects);
                 }
-                Bundle bundle = new Bundle();
-                bundle.putInt(VisivaArqService.BUNDLE_QUANT_PROJ, value.size());
-                VisivaArqService.startActionUpdateQuantProj(getApplication(), bundle);
+                VisivaArqService.startActionUpdateWidget(getApplication());
             }
         });
     }
@@ -161,7 +157,7 @@ public class FirebaseViewModel extends AndroidViewModel {
         AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
-                List<Image> images = AppDatabase.getInstance(getApplication()).imageDAO().loadAllImages(idProjeto);
+                List<Image> images = AppDatabase.getInstance(getApplication()).imageDAO().loadAllImagesFromProject(idProjeto);
                 getDataImage().postValue(images);
             }
         });

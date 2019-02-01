@@ -41,22 +41,22 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
-        <receiver android:name=".VisivaArqWidgetProvider">
+        <service
+            android:name=".VisivaArqService"
+            android:exported="false" />
+
+        <receiver android:name=".VisivaWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/visiva_arq_widget_info" />
+                android:resource="@xml/visiva_widget_info" />
         </receiver>
 
         <service
-            android:name=".VisivaArqService"
-            android:exported="false" />
-
-        <service
-            android:name=".widget.ListWidgetService"
+            android:name=".GridWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
