@@ -35,8 +35,11 @@
     <string name="widget_info_quant_proj">Atualmente temos %1s projetos que nos foram confiados.</string>
     <string name="tv_widget_click_here">Clique aqui e entre em contato por e-mail você também. Será um prazer atendê-lo(a)</string>
     <string name="desc_widget">Atalho para entrar em contato com a Visiva Arquitetura</string>
-    <string name="empty_projects">Nenhum projeto concluído</string>
+    <string name="empty_projects">Nenhum projeto encontrado</string>
     <string name="default_text_widget_adapter">Aqui vai uma mensagem padrão para ser utilizada no widget</string>
     <string name="msg_wifi_off">Sem conexão com a Internet</string>
     <string name="my_loading">Carregando projetos...</string>
+    <string name="desc_wifi_off">Ícone indicando dispositivo sem conexão com a internet</string>
+    <string name="propaganda_visiva">Visiva - Projetando sonhos</string>
+    <string name="desc_image_project">Imagem \'$1\' do projeto $2</string>
 </resources>
