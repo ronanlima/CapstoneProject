@@ -14,7 +14,7 @@ android {
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        buildConfigField "String", "PREF_QUANT_PROJ", '"pref_quant_proj"'
+        buildConfigField "String", "ID_LAST_SELECTED_PROJECT", '"id_last_selected_project"'
     }
 
     signingConfigs {

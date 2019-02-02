@@ -3,17 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_widget"
+    android:background="@drawable/background_widget_image"
     android:orientation="vertical">
+
+    <TextView
+        style="@style/TextWidgetStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_project_widget"
+        android:textColor="@color/colorPrimaryDark" />
 
     <ImageView
         android:id="@+id/widget_image"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        style="@style/WidgetStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/desc_last_selected_project"
         app:srcCompat="@drawable/img_project_default" />
+
 </LinearLayout>

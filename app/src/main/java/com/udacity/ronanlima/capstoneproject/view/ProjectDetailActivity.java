@@ -1,13 +1,17 @@
 package com.udacity.ronanlima.capstoneproject.view;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.udacity.ronanlima.capstoneproject.AppExecutors;
+import com.udacity.ronanlima.capstoneproject.BuildConfig;
 import com.udacity.ronanlima.capstoneproject.R;
+import com.udacity.ronanlima.capstoneproject.VisivaArqService;
 import com.udacity.ronanlima.capstoneproject.data.Image;
 import com.udacity.ronanlima.capstoneproject.data.Project;
 import com.udacity.ronanlima.capstoneproject.database.AppDatabase;
@@ -52,6 +56,18 @@ public class ProjectDetailActivity extends AppCompatActivity {
         } else {
             project = savedInstanceState.getParcelable(MainActivity.BUNDLE_PROJECT);
         }
+        saveProjectIdOnPreferences();
+        VisivaArqService.startActionUpdateWidget(this);
+    }
+
+    /**
+     * Save the project id to use in widget.
+     */
+    private void saveProjectIdOnPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(BuildConfig.ID_LAST_SELECTED_PROJECT, project.getId());
+        editor.apply();
     }
 
     private ProjectFragment createProjectFragment(Project project) {

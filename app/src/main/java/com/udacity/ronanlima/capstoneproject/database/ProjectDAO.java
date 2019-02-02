@@ -18,6 +18,9 @@ import java.util.List;
 
 @Dao
 public interface ProjectDAO {
+    @Query("SELECT * FROM project WHERE id = :id")
+    Project loadProjectById(String id);
+
     @Query("SELECT * FROM project")
     List<Project> loadAllProjects();
 

@@ -42,4 +42,7 @@
     <string name="desc_wifi_off">Ícone indicando dispositivo sem conexão com a internet</string>
     <string name="propaganda_visiva">Visiva - Projetando sonhos</string>
     <string name="desc_image_project">Imagem \'$1\' do projeto $2</string>
+    <string name="title_project_widget">Último projeto visualizado</string>
+    <string name="project_test_example">Projeto de decoração no Lago Sul</string>
+    <string name="desc_last_selected_project">Imagem de capa do último projeto selecionado</string>
 </resources>

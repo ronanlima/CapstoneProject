@@ -29,4 +29,17 @@
         <item name="android:layout_height">@dimen/height_iv_adapter</item>
     </style>
 
+    <style name="WidgetStyle">
+        <item name="android:layout_marginLeft">@dimen/margin_left_widget</item>
+        <item name="android:layout_marginStart">@dimen/margin_start_widget</item>
+        <item name="android:layout_marginEnd">@dimen/margin_end_widget</item>
+        <item name="android:layout_marginRight">@dimen/margin_right_widget</item>
+    </style>
+
+    <style name="TextWidgetStyle" parent="WidgetStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
