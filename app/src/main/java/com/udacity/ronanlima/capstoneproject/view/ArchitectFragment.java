@@ -73,6 +73,10 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
             if (NetworkUtils.isConnected(getActivity())) {
                 viewModel.retrieveProjects(true);
                 showLoadingLayout();
+            } else {
+                swipeRefreshLayout.setRefreshing(false);
+                recyclerView.setVisibility(View.GONE);
+                layoutNetworkOff.setVisibility(View.VISIBLE);
             }
         }
     };

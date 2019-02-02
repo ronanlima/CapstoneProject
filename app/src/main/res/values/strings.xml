@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CapstoneProject</string>
+    <string name="app_name">Visiva Arquitetura</string>
     <string name="title_architecture">Arquitetura</string>
     <string name="title_decoration">Decoração</string>
     <string name="title_notifications">Notifications</string>
@@ -9,7 +9,7 @@
     <string name="firebase_image_reference">imagens</string>
 
     <string name="fab_extra_subject">Visiva Arquitetura - Pedido de orçamento</string>
-    <string name="fab_extra_email">ronan.saleslima@gmail.com</string>
+    <string name="fab_extra_email">jessicamuniz.arq@gmail.com</string>
     <string name="fab_extra_text">Enviado através do Visiva App</string>
     <string name="title_chooser_email">Escolha o aplicativo para envio</string>
     <string name="fab_mailto">mailto</string>

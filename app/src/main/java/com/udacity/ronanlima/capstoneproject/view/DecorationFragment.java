@@ -73,6 +73,10 @@ public class DecorationFragment extends Fragment implements ProjectAdapter.OnPro
             if (NetworkUtils.isConnected(getActivity())) {
                 viewModel.retrieveProjects(true);
                 showLoadingLayout();
+            } else {
+                swipeRefreshLayout.setRefreshing(false);
+                layoutNetworkOff.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
             }
         }
     };
