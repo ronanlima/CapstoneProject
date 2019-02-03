@@ -49,7 +49,7 @@ import butterknife.ButterKnife;
  */
 public class ProjectFragment extends Fragment implements ImageAdapter.OnImageItemClickListener {
     public static final String TAG = ProjectFragment.class.getSimpleName().toUpperCase();
-    public static final int SLIDE_DURATION = 300;
+    public static final int SLIDE_DURATION = 500;
     public static final int EXPLODE_DURATION = 300;
 
     private FirebaseViewModel viewModel;
