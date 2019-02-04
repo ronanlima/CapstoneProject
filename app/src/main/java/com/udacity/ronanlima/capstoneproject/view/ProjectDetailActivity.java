@@ -38,26 +38,33 @@ public class ProjectDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             project = getIntent().getParcelableExtra(MainActivity.BUNDLE_PROJECT);
 
-            AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    List<Image> images = AppDatabase.getInstance(ProjectDetailActivity.this).imageDAO().loadAllImagesFromProject(project.getId());
-                    if (images == null || images.isEmpty()) {
-                        viewModel.retrieveImages(project.getId());
-                    } else {
-                        viewModel.getDataImage().postValue(images);
-                    }
-                }
-            });
+            retrieveImages();
             ProjectFragment projectFragment = createProjectFragment(project);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.add(R.id.fragment_container, projectFragment, ProjectFragment.TAG).commit();
         } else {
             project = savedInstanceState.getParcelable(MainActivity.BUNDLE_PROJECT);
+            if (viewModel.getDataImage().getValue() == null || viewModel.getDataImage().getValue().isEmpty()) {
+                retrieveImages();
+            }
         }
         saveProjectIdOnPreferences();
         VisivaArqService.startActionUpdateWidget(this);
+    }
+
+    private void retrieveImages() {
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Image> images = AppDatabase.getInstance(ProjectDetailActivity.this).imageDAO().loadAllImagesFromProject(project.getId());
+                if (images == null || images.isEmpty()) {
+                    viewModel.retrieveImages(project.getId());
+                } else {
+                    viewModel.getDataImage().postValue(images);
+                }
+            }
+        });
     }
 
     /**
