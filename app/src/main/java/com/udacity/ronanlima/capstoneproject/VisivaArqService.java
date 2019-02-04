@@ -41,7 +41,7 @@ public class VisivaArqService extends IntentService {
     private void handleActionUpdateWidget() {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, VisivaWidgetProvider.class));
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_grid_view);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_image);
         VisivaWidgetProvider.updateVisivaWidget(this, appWidgetManager, appWidgetIds, getProjectId());
     }
 
