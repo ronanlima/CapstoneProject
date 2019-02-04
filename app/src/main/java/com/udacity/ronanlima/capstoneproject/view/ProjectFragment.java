@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -54,7 +55,7 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
 
     private Project project;
     @BindView(R.id.iv_principal)
-    ProportionThreeTwoImageView ivPrincipal;
+    ImageView ivPrincipal;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.tv_info_projeto)
