@@ -1,13 +1,7 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="app_bar_layout_elevation">4dp</dimen>
 
-    <dimen name="activityPadding">16dp</dimen>
-    <dimen name="placeholderImage">135dp</dimen>
-    <dimen name="placeholderTextHeight">8dp</dimen>
-    <dimen name="padding_10">10dp</dimen>
 
     <dimen name="width_iv_adapter">96dp</dimen>
     <dimen name="height_iv_adapter">96dp</dimen>
@@ -20,25 +14,17 @@
     <dimen name="margin_top_cardview_project">@dimen/margin_left_cardview_project</dimen>
     <dimen name="margin_right_cardview_project">@dimen/margin_left_cardview_project</dimen>
     <dimen name="margin_bottom_cardview_project">@dimen/margin_left_cardview_project</dimen>
-    <dimen name="corner_radius">2dp</dimen>
-    <dimen name="card_elevation">2dp</dimen>
 
     <dimen name="margin_left_item_gallery">2dp</dimen>
-    <dimen name="margin_start_item_gallery">@dimen/margin_left_item_gallery</dimen>
-    <dimen name="margin_rigth_item_gallery">2dp</dimen>
-    <dimen name="margin_end_item_gallery">@dimen/margin_rigth_item_gallery</dimen>
     <dimen name="item_gallery_height">120dp</dimen>
 
     <dimen name="margin_left_widget">8dp</dimen>
     <dimen name="margin_start_widget">@dimen/margin_left_widget</dimen>
     <dimen name="margin_end_widget">8dp</dimen>
     <dimen name="margin_right_widget">@dimen/margin_end_widget</dimen>
-    <dimen name="text_widget_max_width">110dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
-    <dimen name="widget_margin">8dp</dimen>
-    <dimen name="text_size_empty_projects">20sp</dimen>
 </resources>

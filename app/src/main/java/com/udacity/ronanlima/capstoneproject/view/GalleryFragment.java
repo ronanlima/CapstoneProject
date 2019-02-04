@@ -40,8 +40,6 @@ public class GalleryFragment extends Fragment implements ItemGalleryAdapter.Imag
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private FirebaseViewModel viewModel;
-    private ItemGalleryAdapter adapter;
-    private ProjectDetailActivity activity;
     private Project project;
     public static final String ARGUMENT_POSITION_IMAGE = "POSITION_IMAGE";
 
@@ -61,7 +59,7 @@ public class GalleryFragment extends Fragment implements ItemGalleryAdapter.Imag
      * Set the toolbar
      */
     private void configToolbar() {
-        activity = (ProjectDetailActivity) getActivity();
+        ProjectDetailActivity activity = (ProjectDetailActivity) getActivity();
         toolbar.setTitle(project.getNomeProjeto());
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -71,7 +69,7 @@ public class GalleryFragment extends Fragment implements ItemGalleryAdapter.Imag
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         List<Image> images = viewModel.getDataImage().getValue();
-        adapter = new ItemGalleryAdapter(images, this);
+        ItemGalleryAdapter adapter = new ItemGalleryAdapter(images, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
     }

@@ -14,8 +14,8 @@ import lombok.Getter;
  */
 
 public class AppExecutors {
-    public static final Object LOCK = new Object();
-    public static final int N_THREADS = 3;
+    private static final Object LOCK = new Object();
+    private static final int N_THREADS = 3;
     private static AppExecutors sInstance;
     @Getter
     private final Executor diskIO;
@@ -24,7 +24,7 @@ public class AppExecutors {
     @Getter
     private final Executor networkIO;
 
-    public AppExecutors(Executor diskIO, Executor mainThread, Executor networkIO) {
+    private AppExecutors(Executor diskIO, Executor mainThread, Executor networkIO) {
         this.diskIO = diskIO;
         this.mainThread = mainThread;
         this.networkIO = networkIO;

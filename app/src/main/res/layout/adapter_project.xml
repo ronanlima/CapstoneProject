@@ -12,6 +12,7 @@
         android:layout_height="135dp"
         android:background="@android:color/white"
         android:clickable="true"
+        android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="2dp"
         app:cardElevation="2dp"

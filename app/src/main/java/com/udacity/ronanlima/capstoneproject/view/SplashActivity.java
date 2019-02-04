@@ -9,7 +9,7 @@ import com.udacity.ronanlima.capstoneproject.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-    public static final int DELAY_MILLIS = 300;
+    private static final int DELAY_MILLIS = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

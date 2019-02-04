@@ -2,7 +2,6 @@
     <string name="app_name">Visiva Arquitetura</string>
     <string name="title_architecture">Arquitetura</string>
     <string name="title_decoration">Decoração</string>
-    <string name="title_notifications">Notifications</string>
     <string name="tools_title">Title project</string>
 
     <string name="firebase_project_reference">projetos</string>
@@ -30,19 +29,9 @@
     <string name="desc_loading">Imagem carregando</string>
     <string name="desc_imagem_capa">Imagem da capa do projeto</string>
     <string name="desc_slide_images">Exibição das imagens do projeto, em tela cheia.</string>
-    <string name="appwidget_text">Example</string>
-    <string name="add_widget">Add widget</string>
-    <string name="widget_info_quant_proj">Atualmente temos %1s projetos que nos foram confiados.</string>
-    <string name="tv_widget_click_here">Clique aqui e entre em contato por e-mail você também. Será um prazer atendê-lo(a)</string>
-    <string name="desc_widget">Atalho para entrar em contato com a Visiva Arquitetura</string>
-    <string name="empty_projects">Nenhum projeto encontrado</string>
-    <string name="default_text_widget_adapter">Aqui vai uma mensagem padrão para ser utilizada no widget</string>
     <string name="msg_wifi_off">Sem conexão com a Internet</string>
     <string name="my_loading">Carregando projetos...</string>
     <string name="desc_wifi_off">Ícone indicando dispositivo sem conexão com a internet</string>
-    <string name="propaganda_visiva">Visiva - Projetando sonhos</string>
-    <string name="desc_image_project">Imagem \'$1\' do projeto $2</string>
     <string name="title_project_widget">Último projeto visualizado</string>
-    <string name="project_test_example">Projeto de decoração no Lago Sul</string>
     <string name="desc_last_selected_project">Imagem de capa do último projeto selecionado</string>
 </resources>

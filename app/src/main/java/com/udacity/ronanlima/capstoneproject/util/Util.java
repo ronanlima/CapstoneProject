@@ -31,7 +31,7 @@ public class Util {
      * @param images
      * @return
      */
-    public static int getNextRandom(List<Image> images) {
+    private static int getNextRandom(List<Image> images) {
         int countImage = images.size();
         Random r = new Random();
         if (countImage <= 0) {

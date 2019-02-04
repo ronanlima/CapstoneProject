@@ -15,9 +15,9 @@ import com.udacity.ronanlima.capstoneproject.view.DecorationFragment;
 
 public class NavigationViewAdapter extends FragmentStatePagerAdapter {
 
-    public static final int QUANT_FRAGMENT = 2;
-    public static final int FIRST_PAGE = 0;
-    public static final int SECOND_PAGE = 1;
+    private static final int QUANT_FRAGMENT = 2;
+    private static final int FIRST_PAGE = 0;
+    private static final int SECOND_PAGE = 1;
 
     public NavigationViewAdapter(FragmentManager fm) {
         super(fm);

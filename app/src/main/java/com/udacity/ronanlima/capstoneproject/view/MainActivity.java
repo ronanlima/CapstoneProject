@@ -26,8 +26,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int ITEM_ARCHITECT = 0;
-    public static final int ITEM_DECORATION = 1;
+    private static final int ITEM_ARCHITECT = 0;
+    private static final int ITEM_DECORATION = 1;
     public static final String BUNDLE_PROJECT = "BUNDLE_PROJECT";
 
     @BindView(R.id.view_pager)

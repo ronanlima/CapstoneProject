@@ -52,14 +52,14 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
     private FirebaseViewModel viewModel;
     private ProjectAdapter adapter;
 
-    Observer observerProjects = new Observer<List<Project>>() {
+    final Observer observerProjects = new Observer<List<Project>>() {
         @Override
         public void onChanged(@Nullable List<Project> projects) {
             configProjectAdapter(projects);
         }
     };
 
-    Observer observerUpdate = new Observer<Integer>() {
+    final Observer observerUpdate = new Observer<Integer>() {
         @Override
         public void onChanged(@Nullable Integer countProjects) {
             swipeRefreshLayout.setRefreshing(false);
@@ -67,7 +67,7 @@ public class ArchitectFragment extends Fragment implements ProjectAdapter.OnProj
         }
     };
 
-    SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+    final SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
             if (NetworkUtils.isConnected(getActivity())) {

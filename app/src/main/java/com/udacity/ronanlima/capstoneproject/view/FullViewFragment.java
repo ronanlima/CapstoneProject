@@ -39,14 +39,13 @@ public class FullViewFragment extends Fragment {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private List<Image> images;
-    private FirebaseViewModel viewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_full_view, container, false);
         ButterKnife.bind(this, view);
-        viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
+        FirebaseViewModel viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
         images = viewModel.getDataImage().getValue();
         configToolbar();
         setRetainInstance(true);

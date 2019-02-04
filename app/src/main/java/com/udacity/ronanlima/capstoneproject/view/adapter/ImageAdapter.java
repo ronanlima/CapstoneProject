@@ -35,8 +35,8 @@ import lombok.Getter;
  */
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private static final String TAG = ImageAdapter.class.getSimpleName().toUpperCase();
-    public static final String FILE_EXTENSION = ".png";
-    public static final int COMPRESS_QUALITY = 100;
+    private static final String FILE_EXTENSION = ".png";
+    private static final int COMPRESS_QUALITY = 100;
 
     private Context mContext;
     @Getter

@@ -49,10 +49,9 @@ import butterknife.ButterKnife;
  */
 public class ProjectFragment extends Fragment implements ImageAdapter.OnImageItemClickListener {
     public static final String TAG = ProjectFragment.class.getSimpleName().toUpperCase();
-    public static final int SLIDE_DURATION = 500;
-    public static final int EXPLODE_DURATION = 300;
+    private static final int SLIDE_DURATION = 500;
+    private static final int EXPLODE_DURATION = 300;
 
-    private FirebaseViewModel viewModel;
     private Project project;
     @BindView(R.id.iv_principal)
     ProportionThreeTwoImageView ivPrincipal;
@@ -62,7 +61,6 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
     TextView tvInfoProjeto;
     @BindView(R.id.rv_imagens)
     RecyclerView rvImages;
-    private ProjectDetailActivity activity;
     private ImageAdapter adapter;
 
     /**
@@ -152,7 +150,7 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
      * Get view model and set an observer for images.
      */
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
+        FirebaseViewModel viewModel = ViewModelProviders.of(getActivity()).get(FirebaseViewModel.class);
         if (!viewModel.getDataImage().hasActiveObservers()) {
             viewModel.getDataImage().observe(this, observer);
         }
@@ -162,7 +160,7 @@ public class ProjectFragment extends Fragment implements ImageAdapter.OnImageIte
      * Set the toolbar
      */
     private void configToolbar() {
-        activity = (ProjectDetailActivity) getActivity();
+        ProjectDetailActivity activity = (ProjectDetailActivity) getActivity();
         toolbar.setTitle(project.getNomeProjeto());
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);

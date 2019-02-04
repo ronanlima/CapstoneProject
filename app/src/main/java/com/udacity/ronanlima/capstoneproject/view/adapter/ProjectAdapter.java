@@ -35,8 +35,8 @@ import lombok.Getter;
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectVH> {
 
     private static final String TAG = ProjectAdapter.class.getSimpleName().toUpperCase();
-    public static final String FILE_EXTENSION = ".png";
-    public static final int COMPRESS_QUALITY = 100;
+    private static final String FILE_EXTENSION = ".png";
+    private static final int COMPRESS_QUALITY = 100;
 
     @Getter
     private List<Project> list;
