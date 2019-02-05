@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Visiva Arquitetura</string>
+    <string name="app_name">Capstone</string>
     <string name="title_architecture">Arquitetura</string>
     <string name="title_decoration">Decoração</string>
     <string name="tools_title">Title project</string>
@@ -22,7 +22,7 @@
     <string name="toast_empty_gallery">Não existem imagens a serem exibidas. Verifique sua conexão com a internet e tente novamente</string>
 
     <!-- Content description -->
-    <string name="desc_logo">Visiva Arquitetura</string>
+    <string name="desc_logo">Capstone</string>
     <string name="desc_image_item">Imagem do projeto</string>
     <string name="desc_bottom_navigation">Visualizção de projetos</string>
     <string name="desc_shortcut_email">Atalho para enviar e-mail</string>
