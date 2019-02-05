@@ -98,8 +98,13 @@ public class ItemGalleryAdapter extends RecyclerView.Adapter<ItemGalleryAdapter.
                         Log.e(TAG, e.getMessage());
                     }
                 } else {
-                    hideShimmerAnimation(holder);
-                    holder.ivItem.setBackground(mContext.getResources().getDrawable(R.drawable.img_project_default));
+                    AppExecutors.getInstance().getMainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideShimmerAnimation(holder);
+                            holder.ivItem.setBackground(mContext.getResources().getDrawable(R.drawable.img_project_default));
+                        }
+                    });
                 }
             }
         });

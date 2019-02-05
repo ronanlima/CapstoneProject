@@ -34,4 +34,5 @@
     <string name="desc_wifi_off">Ícone indicando dispositivo sem conexão com a internet</string>
     <string name="title_project_widget">Último projeto visualizado</string>
     <string name="desc_last_selected_project">Imagem de capa do último projeto selecionado</string>
+    <string name="message_empty_view">Nenhum projeto encontrado</string>
 </resources>

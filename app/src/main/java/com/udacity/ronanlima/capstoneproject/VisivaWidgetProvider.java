@@ -58,6 +58,7 @@ public class VisivaWidgetProvider extends AppWidgetProvider {
         }
         PendingIntent pendingIntent = createPendingIntent(context, project);
         views.setOnClickPendingIntent(R.id.layout_widget, pendingIntent);
+        views.setEmptyView(R.id.layout_widget_geral, R.id.empty_view);
         return views;
     }
 
@@ -67,12 +68,6 @@ public class VisivaWidgetProvider extends AppWidgetProvider {
         b.putParcelable(MainActivity.BUNDLE_PROJECT, project);
         i.putExtras(b);
         return PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    @Override
-    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        VisivaArqService.startActionUpdateWidget(context);
-        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
     }
 
     @Override
